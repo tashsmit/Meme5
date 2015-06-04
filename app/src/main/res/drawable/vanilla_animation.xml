@@ -1,0 +1,8 @@
+<animation-list
+    android:id="@+id/selected"
+    android:oneshot="false"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/vanilla_sample" android:duration="5000" />
+    <item android:drawable="@drawable/vanilla_sample2" android:duration="5000" />
+    <item android:drawable="@drawable/vanilla_sample3" android:duration="5000" />
+</animation-list>

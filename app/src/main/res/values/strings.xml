@@ -3,4 +3,16 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_choose_meme_style">choose_meme_style</string>
+
+    <string name="choose_meme_title">Choose Meme Style</string>
+    <string name="back_button">Back</string>
+    <string name="next_button">Next</string>
+    <string name="step1">Step 1</string>
+    <string name="step2">Step 2</string>
+    <string name="step3">Step3</string>
+    <string name="vanilla_radio">Vanilla</string>
+    <string name="demotivational_radio">Demotivational</string>
+
+
 </resources>
