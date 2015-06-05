@@ -8,9 +8,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 import java.io.File;
 import java.io.FileOutputStream;
 
@@ -27,13 +25,11 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         imageSelected = false;
-        Log.d("onCreate Launched", "onCreate");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d("onResume Launched", "onResume");
         if(imageSelected){
             launchChooseMeme();
         }
@@ -83,12 +79,7 @@ public class MainActivity extends Activity {
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             //file path of captured image
             imgFilePath = cursor.getString(columnIndex);
-            //file path of captured image
-            File f = new File(imgFilePath);
-            String imgFileName = f.getName();
-
-            Toast.makeText(MainActivity.this, "Your Path:" + imgFilePath, Toast.LENGTH_LONG).show();
-            Toast.makeText(MainActivity.this, "Your Filename:"+ imgFileName, Toast.LENGTH_LONG).show();
+            
             cursor.close();
         }
     }
