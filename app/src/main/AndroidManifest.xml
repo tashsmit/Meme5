@@ -27,6 +27,11 @@
             android:label="@string/title_activity_choose_meme_style">
 
         </activity>
+        <activity
+            android:name=".DemotivationalMemeActivity"
+            android:label="@string/title_activity_demotivational_meme">
+
+        </activity>
     </application>
 
 </manifest>
