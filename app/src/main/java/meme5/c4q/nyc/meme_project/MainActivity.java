@@ -12,21 +12,11 @@ public class MainActivity extends Activity {
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private String imgFilePath;
-    private boolean imageSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        imageSelected = false;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(imageSelected){
-            launchChooseMeme();
-        }
     }
 
     private void launchChooseMeme(){
@@ -47,7 +37,6 @@ public class MainActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            imageSelected = true;
 
             Uri selectedImage = data.getData();
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
@@ -60,6 +49,7 @@ public class MainActivity extends Activity {
             imgFilePath = cursor.getString(columnIndex);
 
             cursor.close();
+            launchChooseMeme();
         }
     }
 
