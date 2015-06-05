@@ -1,7 +1,6 @@
 package meme5.c4q.nyc.meme_project;
 
 import android.app.Activity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -72,33 +71,26 @@ public class MainActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             thumbnail = (Bitmap) extras.get("data");
-            if(resultCode == RESULT_OK){
-                Uri selectedImage = data.getData();
-                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
-                Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-                cursor.moveToFirst();
+            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+            cursor.moveToFirst();
 
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                //file path of captured image
-                imgFilePath = cursor.getString(columnIndex);
-                //file path of captured image
-                File f = new File(imgFilePath);
-                String imgFileName = f.getName();
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            //file path of captured image
+            imgFilePath = cursor.getString(columnIndex);
+            //file path of captured image
+            File f = new File(imgFilePath);
+            String imgFileName = f.getName();
 
-                Toast.makeText(MainActivity.this, "Your Path:" + imgFilePath, Toast.LENGTH_LONG).show();
-                Toast.makeText(MainActivity.this, "Your Filename:"+ imgFileName, Toast.LENGTH_LONG).show();
-                cursor.close();
-
-            }
-
-
+            Toast.makeText(MainActivity.this, "Your Path:" + imgFilePath, Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "Your Filename:"+ imgFileName, Toast.LENGTH_LONG).show();
+            cursor.close();
         }
-
     }
 
 }
