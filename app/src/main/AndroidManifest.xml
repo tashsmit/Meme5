@@ -14,12 +14,18 @@
         </activity>
         <activity
             android:name=".ChooseMemeStyle"
-            android:label="@string/title_activity_choose_meme_style">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            android:label="@string/title_activity_choose_meme_style" >
+        </activity>
+        <activity
+            android:name=".VanillaMeme"
+            android:label="@string/title_activity_vanilla_test" >
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
         </activity>
     </application>
 
