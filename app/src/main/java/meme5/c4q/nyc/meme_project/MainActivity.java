@@ -11,7 +11,6 @@ import android.view.View;
 
 public class MainActivity extends Activity {
     private static final int RESULT_LOAD_IMG = 1;
-
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private String imgFilePath;
 
@@ -45,54 +44,47 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-
-            Uri selectedImage = data.getData();
-            String[] filePathColumn = {MediaStore.Images.Media.DATA};
-
-            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-            cursor.moveToFirst();
-
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            //file path of captured image
-            imgFilePath = cursor.getString(columnIndex);
-
-            cursor.close();
-            launchChooseMeme();
-        }
-
-//        Pooja code - commented out for now
 //        super.onActivityResult(requestCode, resultCode, data);
-//        try {
-//            if (requestCode == RESULT_LOAD_IMG && resultCode == RESULT_OK && null != data) {
-//
-//                Uri selectedImage = data.getData();
-//                String[] filePathColumn = { MediaStore.Images.Media.DATA };
-//
-//                Cursor cursor = getContentResolver().query(selectedImage,
-//                        filePathColumn, null, null, null);
-//                cursor.moveToFirst();
-//
-//                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-//                String imgFilePath = cursor.getString(columnIndex);
-//
-//                cursor.close();
-//
-//                // Anthony made a method already so might have to remove this
-//                Intent intent = new Intent(MainActivity.this, ChooseMemeStyle.class);
-//                intent.putExtra("selectedImage", imgFilePath);
-//                startActivity(intent);
-//
-//            } else {
-//                Toast.makeText(this, "You haven't picked Image",
-//                        Toast.LENGTH_LONG).show();
-//            }
-//        } catch (Exception e) {
-//            Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG)
-//                    .show();
-//        }
+
+        try {
+            if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+
+                Uri selectedImage = data.getData();
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+                Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+                cursor.moveToFirst();
+
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                //file path of captured image
+                imgFilePath = cursor.getString(columnIndex);
+
+                cursor.close();
+                launchChooseMeme();
+
+            } else if (requestCode == RESULT_LOAD_IMG && resultCode == RESULT_OK && null != data) {
+
+                Uri selectedImage = data.getData();
+                String[] filePathColumn = { MediaStore.Images.Media.DATA };
+
+                Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+                cursor.moveToFirst();
+
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                //file path of gallery image
+                imgFilePath = cursor.getString(columnIndex);
+
+                cursor.close();
+                launchChooseMeme();
+
+            } else {
+                Toast.makeText(this, "You haven't picked Image",
+                        Toast.LENGTH_LONG).show();
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG)
+                    .show();
+        }
 
     }
 
