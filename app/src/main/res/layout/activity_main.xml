@@ -102,7 +102,8 @@
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/camera" />
+        android:background="@drawable/camera"
+        android:onClick="takePicture"/>
 
     <TextView
         android:id="@+id/cameraText"
