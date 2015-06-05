@@ -2,22 +2,49 @@ package meme5.c4q.nyc.meme_project;
 
 import android.app.Activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
+import java.io.File;
+import java.io.FileOutputStream;
 
 public class MainActivity extends Activity {
 
-    static final int REQUEST_IMAGE_CAPTURE = 1;
-    public Bitmap imageBitmap;
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private Bitmap thumbnail;
+    private String imgFilePath;
+    private String thumbFileName;
+    private boolean imageSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        imageSelected = false;
+        Log.d("onCreate Launched", "onCreate");
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("onResume Launched", "onResume");
+        if(imageSelected){
+            launchChooseMeme();
+        }
+    }
+
+    private void launchChooseMeme(){
+        Intent chooseMeme = new Intent(this,ChooseMemeStyle.class);
+        chooseMeme.putExtra("thumbnailFileName", thumbFileName);
+        chooseMeme.putExtra("imgFilePath",imgFilePath);
+        startActivity(chooseMeme);
     }
 
     public void takePicture(View view){
@@ -25,14 +52,51 @@ public class MainActivity extends Activity {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            imageSelected = true;
+            try {
+                //Write file
+                thumbFileName = "thumbnail.png";
+                FileOutputStream stream = this.openFileOutput(thumbFileName, Context.MODE_PRIVATE);
+                thumbnail.compress(Bitmap.CompressFormat.PNG, 100, stream);
+
+                //Cleanup
+                stream.close();
+                thumbnail.recycle();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
-            imageBitmap = (Bitmap) extras.get("data");
+            thumbnail = (Bitmap) extras.get("data");
+            if(resultCode == RESULT_OK){
+                Uri selectedImage = data.getData();
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+                Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+                cursor.moveToFirst();
+
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                //file path of captured image
+                imgFilePath = cursor.getString(columnIndex);
+                //file path of captured image
+                File f = new File(imgFilePath);
+                String imgFileName = f.getName();
+
+                Toast.makeText(MainActivity.this, "Your Path:" + imgFilePath, Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Your Filename:"+ imgFileName, Toast.LENGTH_LONG).show();
+                cursor.close();
+
+            }
+
+
         }
 
     }
