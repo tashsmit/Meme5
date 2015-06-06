@@ -30,13 +30,6 @@
             android:name=".VanillaMeme"
             android:label="@string/title_activity_vanilla_test" >
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            android:label="@string/title_activity_choose_meme_style">
-
         </activity>
     </application>
 

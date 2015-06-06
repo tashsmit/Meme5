@@ -27,11 +27,12 @@ public class VanillaMeme extends Activity {
     EditText line2;
     EditText line3;
     Button previewButton;
-    Bitmap bmp;
+    Bitmap bmp, bmp2;
     String line1Text;
     String line2Text;
     String line3Text;
     String finalText;
+    String imgFilePath;
 
 
     @Override
@@ -41,12 +42,19 @@ public class VanillaMeme extends Activity {
 
         //TODO - need file path of picture that will come from first activity
 
+        Bundle bundle = getIntent().getExtras();
+        if(bundle.getString("imgFilePath") != null)
+        {
+            imgFilePath = bundle.getString("imgFilePath");
+        }
 
-        image = (ImageView) findViewById(R.id.testImage);
         line1 = (EditText) findViewById(R.id.top);
         line2 = (EditText) findViewById(R.id.middle);
         line3 = (EditText) findViewById(R.id.bottom);
-        previewButton = (Button) findViewById(R.id.drawButton);
+
+        // Convert file path into bitmap image using below line.
+        bmp2 = BitmapFactory.decodeFile(imgFilePath);
+        image.setImageBitmap(bmp2);
 
         RadioGroup group = (RadioGroup) findViewById(R.id.textSizes);
         group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -59,15 +67,15 @@ public class VanillaMeme extends Activity {
 
                 switch (checkedId) {
                     case R.id.small:
-                        bmp = drawTextToBitmap(VanillaMeme.this, R.drawable.vanilla_test, line1Text, 20, 2);
+                        bmp = drawTextToBitmap(VanillaMeme.this, bmp2, line1Text, 20, 2);
                         image.setImageBitmap(bmp);
                         break;
                     case R.id.medium:
-                        bmp = drawTextToBitmap(VanillaMeme.this, R.drawable.vanilla_test, line1Text, 25, 3);
+                        bmp = drawTextToBitmap(VanillaMeme.this, bmp2, line1Text, 25, 3);
                         image.setImageBitmap(bmp);
                         break;
                     case R.id.large:
-                        bmp = drawTextToBitmap(VanillaMeme.this, R.drawable.vanilla_test, line1Text, 30, 4);
+                        bmp = drawTextToBitmap(VanillaMeme.this, bmp2, line1Text, 30, 4);
                         image.setImageBitmap(bmp);
                         break;
                 }
@@ -77,11 +85,12 @@ public class VanillaMeme extends Activity {
     }
 
 
-    public Bitmap drawTextToBitmap(Context mContext, int resourceId, String mText1, int textSize, int strokeSize) {
+    public Bitmap drawTextToBitmap(Context mContext, Bitmap bmp, String mText1, int textSize, int strokeSize) {
         try {
             Resources resources = mContext.getResources();
             float scale = resources.getDisplayMetrics().density;
-            Bitmap bitmap = BitmapFactory.decodeResource(resources, resourceId);
+           //Bitmap bitmap = BitmapFactory.decodeResource(resources, resourceId);
+            Bitmap bitmap = bmp2;
 
             android.graphics.Bitmap.Config bitmapConfig = bitmap.getConfig();
             // set default bitmap config if none

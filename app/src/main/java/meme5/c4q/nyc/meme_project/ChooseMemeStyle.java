@@ -1,6 +1,9 @@
 package meme5.c4q.nyc.meme_project;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
@@ -27,14 +30,26 @@ public class ChooseMemeStyle extends Activity {
     protected Button nextButton;
     protected boolean vanilla;
     protected Random slideShow;
-    ImageView img;
+    ImageView img, thumbnail;
     AnimationDrawable frameAnimation;
+    String imgFilePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_meme_style);
+
+        Bundle bundle = getIntent().getExtras();
+        if(bundle.getString("imgFilePath") != null)
+        {
+            imgFilePath = bundle.getString("imgFilePath");
+        }
+        img = (ImageView) findViewById(R.id.sampleImageHolder);
+        Bitmap bmp2 = BitmapFactory.decodeFile(imgFilePath);
+
+
+        img.setImageBitmap(bmp2);
 
         //apply fonts -
         //TODO: need to find a way to add this font globally through style!
@@ -53,46 +68,61 @@ public class ChooseMemeStyle extends Activity {
         vanillaRadio.setTypeface(tf);
         demotivationalRadio.setTypeface(tf);
 
-        RadioGroup group = (RadioGroup) findViewById(R.id.styleGroup);
-        group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
-                Log.d(TAG, "onCheckedChanged()");
-                // Is the button now checked?
-//                boolean checked = ((RadioButton) view).isChecked();
+//        RadioGroup group = (RadioGroup) findViewById(R.id.styleGroup);
+//        group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
+//                Log.d(TAG, "onCheckedChanged()");
+//                // Is the button now checked?
+////                boolean checked = ((RadioButton) view).isChecked();
+//
+//                // Check which radio button was clicked
+//                switch (checkedId) {
+//                    case R.id.chooseVanilla:
+//
+//                        Log.d(TAG, "onCheckedChanged() -- chooseVanilla");
+//                        //determine if user chose vanilla or demotivational
+//
+//                        vanilla = true;
+//                        img = (ImageView) findViewById(R.id.sampleImageHolder);
+//                        img.setImageResource(R.drawable.vanilla_animation);
+//
+//                        frameAnimation = (AnimationDrawable) img.getDrawable();
+//
+//                        frameAnimation.start();
+//                        break;
+//                    case R.id.chooseDemotivational:
+//
+//                        Log.d(TAG, "onCheckedChanged() -- chooseDemotivational");
+//                        //determine if user chose vanilla or demotivational
+//                        vanilla = false;
+//                        img = (ImageView) findViewById(R.id.sampleImageHolder);
+//                        img.setImageResource(R.drawable.demotivational_animation);
+//
+//                        frameAnimation = (AnimationDrawable) img.getDrawable();
+//
+//                        frameAnimation.start();
+//                        break;
+//                }
+//            }
+//        });
+//
+//        group.check(R.id.chooseDemotivational);
 
-                // Check which radio button was clicked
-                switch (checkedId) {
-                    case R.id.chooseVanilla:
+         nextButton = (Button) findViewById(R.id.nextButton);
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
 
-                        Log.d(TAG, "onCheckedChanged() -- chooseVanilla");
-                        //determine if user chose vanilla or demotivational
-
-                            vanilla = true;
-                        img = (ImageView) findViewById(R.id.sampleImageHolder);
-                        img.setImageResource(R.drawable.vanilla_animation);
-
-                        frameAnimation = (AnimationDrawable) img.getDrawable();
-
-                        frameAnimation.start();
-                        break;
-                    case R.id.chooseDemotivational:
-
-                        Log.d(TAG, "onCheckedChanged() -- chooseDemotivational");
-                        //determine if user chose vanilla or demotivational
-                            vanilla = false;
-                        img = (ImageView) findViewById(R.id.sampleImageHolder);
-                        img.setImageResource(R.drawable.demotivational_animation);
-
-                        frameAnimation = (AnimationDrawable) img.getDrawable();
-
-                        frameAnimation.start();
-                        break;
+                if (vanilla) {
+                    Intent vanillameme = new Intent(ChooseMemeStyle.this,VanillaMeme.class);
+                    vanillameme.putExtra("imgFilePath",imgFilePath);
+                    startActivity(vanillameme);
+                }
+                else {
+                    //start demotivational activity
                 }
             }
         });
-
-        group.check(R.id.chooseDemotivational);
     }
-
 }
+
