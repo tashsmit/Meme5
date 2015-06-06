@@ -45,11 +45,9 @@ public class ChooseMemeStyle extends Activity {
         {
             imgFilePath = bundle.getString("imgFilePath");
         }
-        img = (ImageView) findViewById(R.id.sampleImageHolder);
+        thumbnail = (ImageView) findViewById(R.id.thumbnail);
         Bitmap bmp2 = BitmapFactory.decodeFile(imgFilePath);
-
-
-        img.setImageBitmap(bmp2);
+        thumbnail.setImageBitmap(bmp2);
 
         //apply fonts -
         //TODO: need to find a way to add this font globally through style!
@@ -109,7 +107,7 @@ public class ChooseMemeStyle extends Activity {
 
         group.check(R.id.chooseDemotivational);
 
-         nextButton = (Button) findViewById(R.id.nextButton);
+        nextButton = (Button) findViewById(R.id.nextButton);
         nextButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
@@ -119,7 +117,9 @@ public class ChooseMemeStyle extends Activity {
                     startActivity(vanillameme);
                 }
                 else {
-                    //start demotivational activity
+                    Intent demotivationalMeme = new Intent(ChooseMemeStyle.this, DemotivationalMemeActivity.class);
+                    demotivationalMeme.putExtra("imgFilePath",imgFilePath);
+                    startActivity(demotivationalMeme);
                 }
             }
         });

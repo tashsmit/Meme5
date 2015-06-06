@@ -5,6 +5,7 @@
         android:required="false" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,8 +20,8 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
+
         <activity
             android:name=".ChooseMemeStyle"
             android:label="@string/title_activity_choose_meme_style" >
@@ -29,8 +30,18 @@
             android:name=".VanillaMeme"
             android:label="@string/title_activity_vanilla_test" >
 
-
         </activity>
+
+        <activity
+            android:name=".add_text"
+            android:label="@string/title_activity_add_text">
+        </activity>
+
+        <activity
+            android:name=".DemotivationalMemeActivity"
+            android:label="@string/title_activity_demotivational_meme">
+        </activity>
+
     </application>
 
 </manifest>
