@@ -2,6 +2,7 @@
     android:id="@+id/selected"
     android:oneshot="false"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/demotivational_sample" android:duration="5000" />
-    <item android:drawable="@drawable/vanilla_sample2" android:duration="5000" />
+    <item android:drawable="@drawable/demotivational_sample" android:duration="4500" />
+    <item android:drawable="@drawable/demotivational_sample2" android:duration="4500" />
+    <item android:drawable="@drawable/demotivational_sample3" android:duration="4500" />
 </animation-list>

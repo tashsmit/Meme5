@@ -112,7 +112,9 @@ public class ChooseMemeStyle extends Activity {
             public void onClick(View v) {
 
                 if (vanilla) {
-
+                    Intent vanillameme = new Intent(ChooseMemeStyle.this,VanillaMeme.class);
+                    vanillameme.putExtra("imgFilePath",imgFilePath);
+                    startActivity(vanillameme);
                 }
                 else {
                     Intent demotivationalMeme = new Intent(ChooseMemeStyle.this, DemotivationalMemeActivity.class);
@@ -123,5 +125,4 @@ public class ChooseMemeStyle extends Activity {
         });
     }
 }
-
 

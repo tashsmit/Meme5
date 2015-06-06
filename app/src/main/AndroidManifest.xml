@@ -24,7 +24,12 @@
 
         <activity
             android:name=".ChooseMemeStyle"
-            android:label="@string/title_activity_choose_meme_style">
+            android:label="@string/title_activity_choose_meme_style" >
+        </activity>
+        <activity
+            android:name=".VanillaMeme"
+            android:label="@string/title_activity_vanilla_test" >
+
         </activity>
 
         <activity
