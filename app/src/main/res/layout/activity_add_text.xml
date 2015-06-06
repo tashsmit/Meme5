@@ -57,26 +57,15 @@
 
     </LinearLayout>
 
-    <EditText
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:hint="ADD TOP TEXT HERE"
-        android:textColorHint="#ffffff" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:hint="ADD BOTTOM TEXT HERE"
-        android:textColorHint="#ffffff" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:hint="ADD MIDDLE TEXT HERE (optional)"
-        android:textColorHint="#ffffff" />
+        android:layout_gravity="center"
+        android:fontFamily="times"
+        android:text="SAVE/SHARE"
+        android:textColor="#ffffff"
+        android:textSize="40dp"
+        android:textStyle="bold" />
 
     <ImageView
         android:layout_width="300dp"
@@ -98,11 +87,11 @@
             android:src="@drawable/sharestroke" />
 
         <ImageView
+            android:id="@+id/saveButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/savestroke"
-            android:id="@+id/saveButton"/>
+            android:src="@drawable/savestroke" />
 
     </LinearLayout>
 
