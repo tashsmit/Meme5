@@ -2,26 +2,20 @@ package meme5.c4q.nyc.meme_project;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.Resources;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.RectF;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.Layout;
-import android.text.StaticLayout;
-import android.text.TextPaint;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+
+import java.io.FileOutputStream;
 
 /**
  * Created by c4q-anthonyf on 6/5/15.
@@ -29,6 +23,7 @@ import android.widget.ImageView;
 public class DemotivationalMemeActivity extends Activity {
 
     Bitmap image;
+    Bitmap memeImage;
     ImageView preview;
     EditText largeText;
     EditText smallText;
@@ -55,11 +50,34 @@ public class DemotivationalMemeActivity extends Activity {
         previewText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                image = drawTextToBitmap(image,largeText.getText().toString(),true,45);
-                image = drawTextToBitmap(image,smallText.getText().toString(),false,10);
-                preview.setImageBitmap(image);
+                memeImage = drawTextToBitmap(image.copy(image.getConfig(),true),largeText.getText().toString(),true,45);
+                memeImage = drawTextToBitmap(memeImage,smallText.getText().toString(),false,10);
+                preview.setImageBitmap(memeImage);
             }
         });
+    }
+
+    public void launchLastActivity(View view){
+
+        if(memeImage != null) {
+            try {
+                //Write file
+                String filename = "meme.png";
+                FileOutputStream stream = this.openFileOutput(filename, Context.MODE_PRIVATE);
+                memeImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
+
+                //Cleanup
+                stream.close();
+                memeImage.recycle();
+
+                //Pop intent
+                Intent lastActivity = new Intent(this, add_text.class);
+                lastActivity.putExtra("memeImage", filename);
+                startActivity(lastActivity);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private Bitmap addBorder(Bitmap bmp,int color, int borderSize) {
