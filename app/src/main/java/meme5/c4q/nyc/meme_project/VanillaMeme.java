@@ -2,6 +2,7 @@ package meme5.c4q.nyc.meme_project;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,23 +19,25 @@ import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
+
+import java.io.FileOutputStream;
 
 
 public class VanillaMeme extends Activity {
 
     ImageView image;
     EditText line1;
-    EditText line2;
-    EditText line3;
     Bitmap bmp, bmp2;
     String line1Text;
-    String line2Text;
-    String line3Text;
     String imgFilePath;
-
-    int finalHeight;
-    int finalWidth;
+    Button nextButton;
+    TextView title;
+    RadioButton small, medium, large;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,31 +48,26 @@ public class VanillaMeme extends Activity {
         Bundle bundle = getIntent().getExtras();
         if (bundle.getString("imgFilePath") != null) {
             imgFilePath = bundle.getString("imgFilePath");
+            decodeFile(imgFilePath);
         }
 
         line1 = (EditText) findViewById(R.id.top);
-        line2 = (EditText) findViewById(R.id.middle);
-        line3 = (EditText) findViewById(R.id.bottom);
         image = (ImageView) findViewById(R.id.testImage);
+        nextButton = (Button) findViewById(R.id.next);
+        title = (TextView) findViewById(R.id.title);
+        small = (RadioButton) findViewById(R.id.small);
+        medium = (RadioButton) findViewById(R.id.medium);
+        large = (RadioButton) findViewById(R.id.large);
 
-        //Convert file path into bitmap image
-        bmp2 = BitmapFactory.decodeFile(imgFilePath);
-        //rotate image
-        bmp2= ExifUtils.rotateBitmap(imgFilePath, bmp2);
 
-        //TODO - fix this code or figure out why is it not working
-//        ViewTreeObserver vto = image.getViewTreeObserver();
-//        vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-//            public boolean onPreDraw() {
-//                image.getViewTreeObserver().removeOnPreDrawListener(this);
-//                finalHeight = image.getMeasuredHeight();
-//                finalWidth = image.getMeasuredWidth();
-//                return true;
-//            }
-//        });
-
-        //resize bitmap using resize method
-        bmp2 = resize(bmp2, 1000, 1000);
+        //apply font
+        Typeface tf = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/ubuntu.ttf");
+        title.setTypeface(tf);
+        small.setTypeface(tf);
+        medium.setTypeface(tf);
+        large.setTypeface(tf);
+        line1.setTypeface(tf);
+        nextButton.setTypeface(tf);
 
         //create on check listener to see which size is chosen
         RadioGroup group = (RadioGroup) findViewById(R.id.textSizes);
@@ -78,8 +76,6 @@ public class VanillaMeme extends Activity {
             public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
 
                 line1Text = line1.getText().toString();
-                line2Text = line2.getText().toString();
-                line3Text = line3.getText().toString();
 
                 switch (checkedId) {
                     case R.id.small:
@@ -150,25 +146,55 @@ public class VanillaMeme extends Activity {
 
     }
 
-    //method used to resize bitmap
-    private static Bitmap resize(Bitmap image, int maxWidth, int maxHeight) {
-        if (maxHeight > 0 && maxWidth > 0) {
-            int width = image.getWidth();
-            int height = image.getHeight();
-            float ratioBitmap = (float) width / (float) height;
-            float ratioMax = (float) maxWidth / (float) maxHeight;
+    //method used to resize, rotate and set up bitmap
+    private void decodeFile(String filePath) {
 
-            int finalWidth = maxWidth;
-            int finalHeight = maxHeight;
-            if (ratioMax > 1) {
-                finalWidth = (int) ((float)maxHeight * ratioBitmap);
-            } else {
-                finalHeight = (int) ((float)maxWidth / ratioBitmap);
+        // Decode image size
+        BitmapFactory.Options o = new BitmapFactory.Options();
+        o.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(filePath, o);
+
+        // The new size we want to scale to
+        final int REQUIRED_SIZE = 1024;
+
+        // Find the correct scale value. It should be the power of 2.
+        int width_tmp = o.outWidth, height_tmp = o.outHeight;
+        int scale = 1;
+        while (true) {
+            if (width_tmp < REQUIRED_SIZE && height_tmp < REQUIRED_SIZE)
+                break;
+            width_tmp /= 2;
+            height_tmp /= 2;
+            scale *= 2;
+        }
+
+        // Decode with inSampleSize
+        BitmapFactory.Options o2 = new BitmapFactory.Options();
+        o2.inSampleSize = scale;
+        Bitmap b1 = BitmapFactory.decodeFile(filePath, o2);
+        bmp2= ExifUtils.rotateBitmap(filePath, b1);
+    }
+
+    public void launchLastActivity(View view){
+
+        if(bmp != null) {
+            try {
+                //Write file
+                String filename = "meme.png";
+                FileOutputStream stream = this.openFileOutput(filename, Context.MODE_PRIVATE);
+                bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+
+                //Cleanup
+                stream.close();
+                bmp.recycle();
+
+                //Pop intent
+                Intent lastActivity = new Intent(VanillaMeme.this, add_text.class);
+                lastActivity.putExtra("memeImage", filename);
+                startActivity(lastActivity);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            image = Bitmap.createScaledBitmap(image, finalWidth, finalHeight, true);
-            return image;
-        } else {
-            return image;
         }
     }
 
