@@ -11,6 +11,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.provider.MediaStore;
+import android.widget.Toast;
 
 import java.io.FileInputStream;
 
@@ -23,7 +25,6 @@ public class add_text extends ActionBarActivity {
     EditText topText;
     EditText bottomText;
     EditText middleText;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,10 @@ public class add_text extends ActionBarActivity {
 
     }
 
+    public void saveImage(View view) {
+        MediaStore.Images.Media.insertImage(add_text.this.getContentResolver(), memeImage, "title.jpg", "some description");
+        Toast.makeText(this, "Meme saved!", Toast.LENGTH_LONG).show();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
