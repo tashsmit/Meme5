@@ -1,6 +1,7 @@
 package meme5.c4q.nyc.meme_project;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,9 +14,8 @@ import android.widget.ImageView;
 public class add_text extends ActionBarActivity {
     ImageView share;
     ImageView save;
-    EditText topText;
-    EditText bottomText;
-    EditText middleText;
+    ImageView preview;
+    Bitmap image;
 
 
     @Override
@@ -23,10 +23,15 @@ public class add_text extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_text);
 
+        preview = (ImageView)findViewById(R.id.memeComplete);
+
         share = (ImageView) findViewById(R.id.shareButton);
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
+
 
             }
         });
