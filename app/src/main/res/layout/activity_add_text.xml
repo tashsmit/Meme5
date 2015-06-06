@@ -68,11 +68,10 @@
         android:textStyle="bold" />
 
     <ImageView
-        android:id="@+id/memeComplete"
+        android:id="@+id/previewMeme"
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_gravity="center"
-        android:src="@drawable/camerawhite"
 
         />
 
@@ -93,6 +92,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="saveImage"
             android:src="@drawable/savestroke" />
 
     </LinearLayout>
