@@ -14,6 +14,10 @@
     <string name="step3">Step3</string>
     <string name="vanilla_radio">Vanilla</string>
     <string name="demotivational_radio">Demotivational</string>
+    <string name="title_activity_vanilla_test">VanillaTest</string>
+    <string name="title_activity_vanilla_meme">VanillaMeme</string>
+
+
     <string name="title_activity_main_activity2">MainActivity2Activity</string>
     <string name="title_activity_add_text">add_text</string>
 </resources>
