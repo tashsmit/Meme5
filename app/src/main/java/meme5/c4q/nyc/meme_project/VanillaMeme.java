@@ -54,6 +54,8 @@ public class VanillaMeme extends Activity {
 
         //Convert file path into bitmap image
         bmp2 = BitmapFactory.decodeFile(imgFilePath);
+        //rotate image
+        bmp2= ExifUtils.rotateBitmap(imgFilePath, bmp2);
 
         //TODO - fix this code or figure out why is it not working
 //        ViewTreeObserver vto = image.getViewTreeObserver();
