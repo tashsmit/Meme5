@@ -8,13 +8,19 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 /**
@@ -24,6 +30,8 @@ public class DemotivationalMemeActivity extends Activity {
 
     Bitmap image;
     ImageView preview;
+    EditText largeText;
+    EditText smallText;
 
 
     @Override
@@ -38,15 +46,36 @@ public class DemotivationalMemeActivity extends Activity {
         if(bundle.getString("imgFilePath") != null)
         {
             imgFilePath = bundle.getString("imgFilePath");
-            // image = BitmapFactory.decodeFile(imgFilePath);
             decodeFile(imgFilePath);
-            Log.d("Loaded image","imgFilePath not Null");
         }
 
-
+        largeText = (EditText) findViewById(R.id.large);
+        smallText = (EditText) findViewById(R.id.small);
+        Button previewText = (Button) findViewById(R.id.previewText);
+        previewText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                image = drawTextToBitmap(image,largeText.getText().toString(),true,45);
+                image = drawTextToBitmap(image,smallText.getText().toString(),false,10);
+                preview.setImageBitmap(image);
+            }
+        });
     }
 
-    public void decodeFile(String filePath) {
+    private Bitmap addBorder(Bitmap bmp,int color, int borderSize) {
+        return addBorder(bmp, color,borderSize, borderSize, borderSize, borderSize);
+    }
+
+    private Bitmap addBorder(Bitmap bmp, int color, int left, int top, int right, int bottom){
+        Bitmap bmpWithBorder = Bitmap.createBitmap(bmp.getWidth() + left + right, bmp.getHeight() + top + bottom, bmp.getConfig());
+        Canvas canvas = new Canvas(bmpWithBorder);
+        canvas.drawColor(color);
+        canvas.drawBitmap(bmp, left, top, null);
+
+        return bmpWithBorder;
+    }
+
+    private void decodeFile(String filePath) {
 
         // Decode image size
         BitmapFactory.Options o = new BitmapFactory.Options();
@@ -71,86 +100,41 @@ public class DemotivationalMemeActivity extends Activity {
         BitmapFactory.Options o2 = new BitmapFactory.Options();
         o2.inSampleSize = scale;
         Bitmap b1 = BitmapFactory.decodeFile(filePath, o2);
-        Bitmap b= ExifUtils.rotateBitmap(filePath, b1);
+        image= ExifUtils.rotateBitmap(filePath, b1);
 
-        preview.setImageBitmap(b);
+        image = addBorder(image, Color.BLACK, 5);
+        image = addBorder(image,Color.WHITE, 5);
+        image = addBorder(image, Color.BLACK, 100, 150, 100, 300);
+        preview.setImageBitmap(image);
     }
 
-    public Bitmap scaleCenterCrop(Bitmap source, int newHeight, int newWidth) {
-        int sourceWidth = source.getWidth();
-        int sourceHeight = source.getHeight();
-
-        // Compute the scaling factors to fit the new height and width, respectively.
-        // To cover the final image, the final scaling will be the bigger
-        // of these two.
-        float xScale = (float) newWidth / sourceWidth;
-        float yScale = (float) newHeight / sourceHeight;
-        float scale = Math.max(xScale, yScale);
-
-        // Now get the size of the source bitmap when scaled
-        float scaledWidth = scale * sourceWidth;
-        float scaledHeight = scale * sourceHeight;
-
-        // Let's find out the upper left coordinates if the scaled bitmap
-        // should be centered in the new size give by the parameters
-        float left = (newWidth - scaledWidth) / 2;
-        float top = (newHeight - scaledHeight) / 2;
-
-        // The target rectangle for the new, scaled version of the source bitmap will now
-        // be
-        RectF targetRect = new RectF(left, top, left + scaledWidth, top + scaledHeight);
-
-        // Finally, we create a new bitmap of the specified size and draw our new,
-        // scaled bitmap onto it.
-        Bitmap dest = Bitmap.createBitmap(newWidth, newHeight, source.getConfig());
-        Canvas canvas = new Canvas(dest);
-        canvas.drawBitmap(source, null, targetRect, null);
-
-        return dest;
-    }
-
-    public Bitmap drawTextToBitmap(Context mContext, Bitmap bitmapImage, String mText1, int textSize, int strokeSize) {
+    public Bitmap drawTextToBitmap(Bitmap bitmapImage, String mText1, boolean largeText, int heightOffset) {
         try {
-            Resources resources = mContext.getResources();
-            float scale = resources.getDisplayMetrics().density;
 
-            android.graphics.Bitmap.Config bitmapConfig = bitmapImage.getConfig();
-            // set default bitmap config if none
-            if (bitmapConfig == null) {
-                bitmapConfig = android.graphics.Bitmap.Config.ARGB_8888;
+            Canvas newCanvas = new Canvas(bitmapImage);
+
+            newCanvas.drawBitmap(bitmapImage, 0, 0, null);
+            int textSize;
+            if(largeText) {
+                textSize = 175;
+            }else{
+                textSize = 50;
             }
-            // resource bitmaps are imutable,
-            // so we need to convert it to mutable one
-            bitmapImage = bitmapImage.copy(bitmapConfig, true);
 
-            Canvas canvas = new Canvas(bitmapImage);
-            // new antialised Paint
-            TextPaint paint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-            paint.setColor(Color.rgb(255, 255, 255));
-            // text size in pixels
-            paint.setTextSize((int) (textSize * scale));
-            // text shadow
-            paint.setShadowLayer(1f, 0f, 1f, Color.DKGRAY);
-            // make text font impact
-            Typeface tf = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/impact.ttf");
-            paint.setTypeface(tf);
-            paint.setTextAlign(Paint.Align.CENTER);
-            // center text
-            int xPos = (bitmapImage.getWidth() / 2) - 2;     //-2 is for regulating the x position offset
+            if(mText1 != null) {
 
-            // create a static layout for word wrapping
-            StaticLayout mTextLayout = new StaticLayout(mText1, paint, canvas.getWidth(), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
-            canvas.translate(xPos, 10); //position the text
+                Paint paintText = new Paint(Paint.ANTI_ALIAS_FLAG);
+                paintText.setColor(Color.WHITE);
+                paintText.setTextSize(textSize);
+                paintText.setStyle(Paint.Style.FILL);
+                paintText.setShadowLayer(10f, 10f, 10f, Color.BLACK);
 
-            //draw text without stroke first
-            mTextLayout.draw(canvas);
+                Rect rectText = new Rect();
+                paintText.getTextBounds(mText1, 0, mText1.length(), rectText);
 
-            paint.setColor(Color.BLACK);
-            paint.setStyle(Paint.Style.STROKE);
-            paint.setStrokeWidth(strokeSize);
-
-            //then redraw text for stroke
-            mTextLayout.draw(canvas);
+                newCanvas.drawText(mText1,
+                        newCanvas.getWidth() /2 - rectText.width() /2, newCanvas.getHeight() - rectText.height() - heightOffset, paintText);
+            }
 
             return bitmapImage;
         } catch (Exception e) {
