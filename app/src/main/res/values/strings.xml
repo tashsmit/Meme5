@@ -4,6 +4,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_choose_meme_style">choose_meme_style</string>
+    <string name="title_activity_demotivational_meme">demotivational_meme</string>
 
     <string name="choose_meme_title">Choose Meme Style</string>
     <string name="back_button">Back</string>
