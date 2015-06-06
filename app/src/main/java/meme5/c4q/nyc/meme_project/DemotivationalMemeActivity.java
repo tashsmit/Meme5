@@ -50,8 +50,8 @@ public class DemotivationalMemeActivity extends Activity {
         previewText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                memeImage = drawTextToBitmap(image.copy(image.getConfig(),true),largeText.getText().toString(),true,45);
-                memeImage = drawTextToBitmap(memeImage,smallText.getText().toString(),false,10);
+                memeImage = drawTextToBitmap(image.copy(image.getConfig(),true),largeText.getText().toString(),true);
+                memeImage = drawTextToBitmap(memeImage,smallText.getText().toString(),false);
                 preview.setImageBitmap(memeImage);
             }
         });
@@ -126,17 +126,20 @@ public class DemotivationalMemeActivity extends Activity {
         preview.setImageBitmap(image);
     }
 
-    public Bitmap drawTextToBitmap(Bitmap bitmapImage, String mText1, boolean largeText, int heightOffset) {
+    public Bitmap drawTextToBitmap(Bitmap bitmapImage, String mText1, boolean largeText) {
         try {
 
             Canvas newCanvas = new Canvas(bitmapImage);
 
             newCanvas.drawBitmap(bitmapImage, 0, 0, null);
             int textSize;
+            int heightOffset;
             if(largeText) {
-                textSize = 175;
+                textSize = 100;
+                heightOffset = 0;
             }else{
                 textSize = 50;
+                heightOffset = 100;  //should match large textSize
             }
 
             if(mText1 != null) {
@@ -151,7 +154,7 @@ public class DemotivationalMemeActivity extends Activity {
                 paintText.getTextBounds(mText1, 0, mText1.length(), rectText);
 
                 newCanvas.drawText(mText1,
-                        newCanvas.getWidth() /2 - rectText.width() /2, newCanvas.getHeight() - rectText.height() - heightOffset, paintText);
+                        newCanvas.getWidth() /2 - rectText.width() /2, newCanvas.getHeight() - 299 + rectText.height() + heightOffset, paintText);
             }
 
             return bitmapImage;
