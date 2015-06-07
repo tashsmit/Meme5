@@ -4,10 +4,10 @@ Pooja Pasawala: Worked on allowing the user to select an image from their galler
 Time Spent: 12 hours
 
 Anthony Fermin: Worked on allowing the user to use their camera to take a picture, generating demotivational memes, and reviewed pull requests.
-Time Spent:
+Time Spent: 
 
 Tasha Smith: Created the layout for choosing a Vanilla or Demotivational Meme and worked on generating vanilla memes.
-Time Spent:
+Time Spent: 12 hours
 
 Jorge Reina: Created the layout for choosing camera or gallery image, created the layout for choosing save or share, and added share capability.
 Time Spent:
