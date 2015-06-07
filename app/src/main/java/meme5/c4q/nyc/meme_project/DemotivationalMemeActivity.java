@@ -136,7 +136,8 @@ public class DemotivationalMemeActivity extends Activity {
             int heightOffset;
             if(largeText) {
                 textSize = 80;
-                heightOffset = 0;
+                heightOffset = 30;
+                mText1 = mText1.toUpperCase();
             }else{
                 textSize = 40;
                 heightOffset = 140;
