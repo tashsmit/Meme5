@@ -1,0 +1,8 @@
+<animation-list
+    android:id="@+id/selected"
+    android:oneshot="false"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/splash_meme_1" android:duration="70" />
+    <item android:drawable="@drawable/splash_meme_2" android:duration="70" />
+    <item android:drawable="@drawable/splash_meme_3" android:duration="70" />
+</animation-list>

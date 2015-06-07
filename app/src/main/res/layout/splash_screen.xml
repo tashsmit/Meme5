@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <ImageView android:id="@+id/splashscreen"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:src="@drawable/splash_animation"
+        android:scaleType="centerCrop"/>
+
+    <ImageView android:id="@+id/face"
+        android:layout_width="175dp"
+        android:layout_height="fill_parent"
+        android:src="@drawable/smiley_copy"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"/>
+
+
+    <ImageView android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:src="@drawable/title"
+        android:paddingBottom="350dp"
+        android:id="@+id/title"
+        android:textSize="50dp"
+        />
+
+</RelativeLayout>
