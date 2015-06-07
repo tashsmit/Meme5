@@ -135,11 +135,11 @@ public class DemotivationalMemeActivity extends Activity {
             int textSize;
             int heightOffset;
             if(largeText) {
-                textSize = 100;
+                textSize = 80;
                 heightOffset = 0;
             }else{
-                textSize = 50;
-                heightOffset = 100;  //should match large textSize
+                textSize = 40;
+                heightOffset = 140;
             }
 
             if(mText1 != null) {
