@@ -33,12 +33,6 @@
         </activity>
 
         <activity
-            android:name=".add_text"
-            android:label="@string/title_activity_add_text"
-            android:screenOrientation="portrait">
-        </activity>
-
-        <activity
             android:name=".DemotivationalMemeActivity"
             android:label="@string/title_activity_demotivational_meme"
             android:screenOrientation="portrait">

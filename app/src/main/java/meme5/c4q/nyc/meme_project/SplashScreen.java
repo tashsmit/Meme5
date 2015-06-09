@@ -18,7 +18,7 @@ public class SplashScreen extends Activity {
 
 
     /** Duration of wait **/
-    private final int SPLASH_DISPLAY_LENGTH = 100;//Time which activity will be displayed for in ms
+    private final int SPLASH_DISPLAY_LENGTH = 1000;//Time which activity will be displayed for in ms
     ImageView img;
     AnimationDrawable frameAnimation;
 
