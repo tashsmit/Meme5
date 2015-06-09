@@ -6,7 +6,7 @@
     <string name="title_activity_choose_meme_style">choose_meme_style</string>
     <string name="title_activity_demotivational_meme">demotivational_meme</string>
 
-    <string name="choose_meme_title">Choose Meme Style</string>
+    <string name="choose_meme_title">Choose a Meme Style</string>
     <string name="back_button">Back</string>
     <string name="next_button">Next</string>
     <string name="step1">Step 1</string>

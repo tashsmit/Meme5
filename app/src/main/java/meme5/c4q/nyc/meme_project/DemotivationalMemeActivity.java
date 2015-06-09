@@ -10,8 +10,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -22,12 +23,9 @@ import java.io.FileOutputStream;
  */
 public class DemotivationalMemeActivity extends Activity {
 
-    Bitmap image;
-    Bitmap memeImage;
+    Bitmap image, memeImage;
     ImageView preview;
-    EditText largeText;
-    EditText smallText;
-
+    EditText largeET, smallET;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,31 +33,22 @@ public class DemotivationalMemeActivity extends Activity {
         setContentView(R.layout.activity_demotivational_meme);
 
         preview = (ImageView) findViewById(R.id.preview);
+        largeET = (EditText) findViewById(R.id.large);
+        smallET = (EditText) findViewById(R.id.small);
 
         String imgFilePath = "";
         Bundle bundle = getIntent().getExtras();
-        if(bundle.getString("imgFilePath") != null)
-        {
+        if (bundle.getString("imgFilePath") != null) {
             imgFilePath = bundle.getString("imgFilePath");
             decodeFile(imgFilePath);
         }
 
-        largeText = (EditText) findViewById(R.id.large);
-        smallText = (EditText) findViewById(R.id.small);
-        Button previewText = (Button) findViewById(R.id.previewText);
-        previewText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                memeImage = drawTextToBitmap(image.copy(image.getConfig(),true),largeText.getText().toString(),true);
-                memeImage = drawTextToBitmap(memeImage,smallText.getText().toString(),false);
-                preview.setImageBitmap(memeImage);
-            }
-        });
+        largeET.addTextChangedListener(new TextWatch(largeET, smallET, true));
+        smallET.addTextChangedListener(new TextWatch(smallET, smallET, false));
     }
 
-    public void launchLastActivity(View view){
-
-        if(memeImage != null) {
+    public void launchLastActivity(View view) {
+        if (memeImage != null) {
             try {
                 //Write file
                 String filename = "meme.png";
@@ -71,7 +60,7 @@ public class DemotivationalMemeActivity extends Activity {
                 memeImage.recycle();
 
                 //Pop intent
-                Intent lastActivity = new Intent(this, add_text.class);
+                Intent lastActivity = new Intent(this, SaveShare.class);
                 lastActivity.putExtra("memeImage", filename);
                 startActivity(lastActivity);
             } catch (Exception e) {
@@ -80,11 +69,11 @@ public class DemotivationalMemeActivity extends Activity {
         }
     }
 
-    private Bitmap addBorder(Bitmap bmp,int color, int borderSize) {
-        return addBorder(bmp, color,borderSize, borderSize, borderSize, borderSize);
+    private Bitmap addBorder(Bitmap bmp, int color, int borderSize) {
+        return addBorder(bmp, color, borderSize, borderSize, borderSize, borderSize);
     }
 
-    private Bitmap addBorder(Bitmap bmp, int color, int left, int top, int right, int bottom){
+    private Bitmap addBorder(Bitmap bmp, int color, int left, int top, int right, int bottom) {
         Bitmap bmpWithBorder = Bitmap.createBitmap(bmp.getWidth() + left + right, bmp.getHeight() + top + bottom, bmp.getConfig());
         Canvas canvas = new Canvas(bmpWithBorder);
         canvas.drawColor(color);
@@ -94,7 +83,6 @@ public class DemotivationalMemeActivity extends Activity {
     }
 
     private void decodeFile(String filePath) {
-
         // Decode image size
         BitmapFactory.Options o = new BitmapFactory.Options();
         o.inJustDecodeBounds = true;
@@ -118,11 +106,11 @@ public class DemotivationalMemeActivity extends Activity {
         BitmapFactory.Options o2 = new BitmapFactory.Options();
         o2.inSampleSize = scale;
         Bitmap b1 = BitmapFactory.decodeFile(filePath, o2);
-        image= ExifUtils.rotateBitmap(filePath, b1);
+        image = ExifUtils.rotateBitmap(filePath, b1);
 
         image = addBorder(image, Color.BLACK, 5);
-        image = addBorder(image,Color.WHITE, 5);
-        image = addBorder(image, Color.BLACK, 100, 150, 100, 300);
+        image = addBorder(image, Color.WHITE, 5);
+        image = addBorder(image, Color.BLACK, 30, 30, 30, 150);
         preview.setImageBitmap(image);
     }
 
@@ -131,19 +119,19 @@ public class DemotivationalMemeActivity extends Activity {
 
             Canvas newCanvas = new Canvas(bitmapImage);
 
-            newCanvas.drawBitmap(bitmapImage, 0, 0, null);
+            newCanvas.drawBitmap(bitmapImage, 0, 0, null);/**/
             int textSize;
             int heightOffset;
-            if(largeText) {
-                textSize = 80;
-                heightOffset = 30;
+            if (largeText) {
+                textSize = 70;
+                heightOffset = 150;
                 mText1 = mText1.toUpperCase();
-            }else{
-                textSize = 40;
-                heightOffset = 140;
+            } else {
+                textSize = 30;
+                heightOffset = 210;
             }
 
-            if(mText1 != null) {
+            if (mText1 != null) {
 
                 Paint paintText = new Paint(Paint.ANTI_ALIAS_FLAG);
                 paintText.setColor(Color.WHITE);
@@ -155,18 +143,35 @@ public class DemotivationalMemeActivity extends Activity {
                 paintText.getTextBounds(mText1, 0, mText1.length(), rectText);
 
                 newCanvas.drawText(mText1,
-                        newCanvas.getWidth() /2 - rectText.width() /2, newCanvas.getHeight() - 299 + rectText.height() + heightOffset, paintText);
+                        newCanvas.getWidth() / 2 - rectText.width() / 2, newCanvas.getHeight() - 299 + rectText.height() + heightOffset, paintText);
             }
 
             return bitmapImage;
         } catch (Exception e) {
-            // TODO: handle exception
-
-
             return null;
         }
-
     }
 
+    public class TextWatch implements TextWatcher {
 
+        private EditText large, small;
+        private boolean isLarge;
+
+        public TextWatch(EditText large, EditText small, boolean isLarge) {
+            this.large = large;
+            this.small = small;
+            this.isLarge = isLarge;
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            memeImage = drawTextToBitmap(image.copy(image.getConfig(), true), large.getText().toString(), isLarge);
+            memeImage = drawTextToBitmap(memeImage, small.getText().toString(), !isLarge);
+            preview.setImageBitmap(memeImage);
+        }
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {}
+    }
 }

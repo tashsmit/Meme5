@@ -3,7 +3,6 @@ package meme5.c4q.nyc.meme_project;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -11,91 +10,62 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import android.text.TextWatcher;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.io.FileOutputStream;
-
 
 public class VanillaMeme extends Activity {
 
     ImageView image;
-    EditText line1;
+    EditText topET;
     Bitmap bmp, bmp2;
-    String line1Text;
-    String imgFilePath;
+    String topText;
     Button nextButton;
     TextView title;
-    RadioButton small, medium, large;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vanilla_meme);
 
+        topET = (EditText) findViewById(R.id.top);
+        image = (ImageView) findViewById(R.id.testImage);
+        nextButton = (Button) findViewById(R.id.next);
+        title = (TextView) findViewById(R.id.title);
+
         //get image path from previous activity
+        String imgFilePath = "";
         Bundle bundle = getIntent().getExtras();
         if (bundle.getString("imgFilePath") != null) {
             imgFilePath = bundle.getString("imgFilePath");
             decodeFile(imgFilePath);
         }
 
-        line1 = (EditText) findViewById(R.id.top);
-        image = (ImageView) findViewById(R.id.testImage);
-        nextButton = (Button) findViewById(R.id.next);
-        title = (TextView) findViewById(R.id.title);
-        small = (RadioButton) findViewById(R.id.small);
-        medium = (RadioButton) findViewById(R.id.medium);
-        large = (RadioButton) findViewById(R.id.large);
+        //TODO: show original image
 
-
-        //apply font
-        Typeface tf = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/ubuntu.ttf");
-        title.setTypeface(tf);
-        small.setTypeface(tf);
-        medium.setTypeface(tf);
-        large.setTypeface(tf);
-        line1.setTypeface(tf);
-        nextButton.setTypeface(tf);
-
-        //create on check listener to see which size is chosen
-        RadioGroup group = (RadioGroup) findViewById(R.id.textSizes);
-        group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        topET.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
-
-                line1Text = line1.getText().toString();
-
-                switch (checkedId) {
-                    case R.id.small:
-                        bmp = drawTextToBitmap(bmp2, line1Text, 40, 2);
-                        image.setImageBitmap(bmp);
-                        break;
-                    case R.id.medium:
-                        bmp = drawTextToBitmap(bmp2, line1Text, 55, 3);
-                        image.setImageBitmap(bmp);
-                        break;
-                    case R.id.large:
-                        bmp = drawTextToBitmap(bmp2, line1Text, 80, 4);
-                        image.setImageBitmap(bmp);
-                        break;
-                }
+            public void afterTextChanged(Editable s) {
+                topText = topET.getText().toString();
+                bmp = drawTextToBitmap(bmp2, topText, 40, 2);
+                image.setImageBitmap(bmp);
             }
-        });
-    }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        });}
 
-    //method used to write text on image
+    // Method used to write text on image
     public Bitmap drawTextToBitmap(Bitmap bitmap, String mText1, int textSize, int strokeSize) {
         try {
             android.graphics.Bitmap.Config bitmapConfig = bitmap.getConfig();
@@ -104,8 +74,7 @@ public class VanillaMeme extends Activity {
             if (bitmapConfig == null) {
                 bitmapConfig = android.graphics.Bitmap.Config.ARGB_8888;
             }
-            // resource bitmaps are imutable,
-            // so we need to convert it to mutable one
+            // resource bitmaps are imutable, so we need to convert it to mutable one
             bitmap = bitmap.copy(bitmapConfig, true);
             Canvas canvas = new Canvas(bitmap);
             // new antialised Paint
@@ -138,17 +107,12 @@ public class VanillaMeme extends Activity {
 
             return bitmap;
         } catch (Exception e) {
-            // TODO: handle exception
-
-
             return null;
         }
-
     }
 
-    //method used to resize, rotate and set up bitmap
+    // Method used to resize, rotate and set up bitmap
     private void decodeFile(String filePath) {
-
         // Decode image size
         BitmapFactory.Options o = new BitmapFactory.Options();
         o.inJustDecodeBounds = true;
@@ -175,8 +139,8 @@ public class VanillaMeme extends Activity {
         bmp2= ExifUtils.rotateBitmap(filePath, b1);
     }
 
+    // ??????
     public void launchLastActivity(View view){
-
         if(bmp != null) {
             try {
                 //Write file
@@ -189,7 +153,7 @@ public class VanillaMeme extends Activity {
                 bmp.recycle();
 
                 //Pop intent
-                Intent lastActivity = new Intent(VanillaMeme.this, add_text.class);
+                Intent lastActivity = new Intent(VanillaMeme.this, SaveShare.class);
                 lastActivity.putExtra("memeImage", filename);
                 startActivity(lastActivity);
             } catch (Exception e) {
@@ -197,6 +161,4 @@ public class VanillaMeme extends Activity {
             }
         }
     }
-
-
 }

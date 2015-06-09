@@ -3,7 +3,6 @@ package meme5.c4q.nyc.meme_project;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
@@ -11,7 +10,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.provider.MediaStore;
 import android.widget.Toast;
@@ -23,7 +21,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 
-public class add_text extends ActionBarActivity {
+public class SaveShare extends ActionBarActivity {
 
     Bitmap memeImage;
     ImageView share;
@@ -79,7 +77,7 @@ public class add_text extends ActionBarActivity {
     }
 
     public void saveImage(View view) {
-        MediaStore.Images.Media.insertImage(add_text.this.getContentResolver(), memeImage, "title.jpg", "some description");
+        MediaStore.Images.Media.insertImage(SaveShare.this.getContentResolver(), memeImage, "title.jpg", "some description");
         Toast.makeText(this, "Meme saved!", Toast.LENGTH_LONG).show();
     }
 
