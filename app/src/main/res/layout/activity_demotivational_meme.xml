@@ -13,7 +13,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:orientation="horizontal">
 
         <TextView
@@ -28,23 +28,22 @@
             style="@style/Steps"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/step_two"
-            android:textSize="20dp"
-            android:textStyle="bold" />
+            android:text="@string/step_two"/>
 
         <TextView
             android:id="@+id/step3"
             style="@style/Steps"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/step_three" />
+            android:text="@string/step_three"
+            android:textSize="20dp"
+            android:textStyle="bold" />
     </LinearLayout>
-
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="14"
+        android:layout_weight="27"
         android:layout_marginTop="5dp"
         android:orientation="vertical">
 
@@ -53,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:hint="large text"
+            android:hint="Enter Large Text Here"
             android:maxLength="90"
             android:textColor="#ffffff"
             android:textColorHint="#ffffff" />
@@ -63,7 +62,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:hint="small text"
+            android:hint="Enter Small Text Here"
             android:maxLength="90"
             android:textColor="#ffffff"
             android:textColorHint="#ffffff" />
@@ -74,15 +73,30 @@
             android:layout_height="0dp"
             android:layout_weight="7" />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:orientation="horizontal">
         <Button
-            android:id="@+id/next"
+            android:id="@+id/save"
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
             android:onClick="launchLastActivity"
-            android:text="Next" />
-
+            android:text="Save" />
+        <Button
+            android:id="@+id/share"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:onClick="launchLastActivity"
+            android:text="Share" />
     </LinearLayout>
 </LinearLayout>
