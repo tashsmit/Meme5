@@ -21,4 +21,7 @@
 
     <string name="title_activity_main_activity2">MainActivity2Activity</string>
     <string name="title_activity_add_text">add_text</string>
+    <string name="step_one">STEP 1</string>
+    <string name="step_two">STEP 2</string>
+    <string name="step_three">STEP 3</string>
 </resources>

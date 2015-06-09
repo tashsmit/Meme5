@@ -13,7 +13,7 @@
     <ImageView android:id="@+id/face"
         android:layout_width="175dp"
         android:layout_height="fill_parent"
-        android:src="@drawable/smiley_copy"
+        android:src="@drawable/smiley"
         android:gravity="center"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"/>

@@ -23,6 +23,8 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
     }
+
+    // launches intent for meme layout choice
     private void launchChooseMeme(){
         Intent chooseMeme = new Intent(this,ChooseMemeStyle.class);
         chooseMeme.putExtra("imgFilePath",imgFilePath);
@@ -30,7 +32,6 @@ public class MainActivity extends Activity {
     }
 
     public void takePicture(View view){
-
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
@@ -47,8 +48,6 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-
         try {
             if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
 
@@ -81,15 +80,13 @@ public class MainActivity extends Activity {
                 launchChooseMeme();
 
             } else {
-                Toast.makeText(this, "You haven't picked Image",
+                Toast.makeText(this, "You haven't picked an Image",
                         Toast.LENGTH_LONG).show();
             }
         } catch (Exception e) {
             Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG)
                     .show();
         }
-
     }
-
 }
 
