@@ -62,7 +62,7 @@ public class ChooseMemeStyle extends Activity {
             }
         });
 
-        group.check(R.id.chooseDemotivational);
+        group.check(R.id.chooseVanilla);
 
         nextButton = (Button) findViewById(R.id.nextButton);
         nextButton.setOnClickListener(new View.OnClickListener() {
@@ -73,7 +73,7 @@ public class ChooseMemeStyle extends Activity {
                     vanillameme.putExtra("imgFilePath", imgFilePath);
                     startActivity(vanillameme);
                 } else {
-                    Intent demotivationalMeme = new Intent(ChooseMemeStyle.this, DemotivationalMemeActivity.class);
+                    Intent demotivationalMeme = new Intent(ChooseMemeStyle.this, DemotivationalMeme.class);
                     demotivationalMeme.putExtra("imgFilePath", imgFilePath);
                     startActivity(demotivationalMeme);
                 }

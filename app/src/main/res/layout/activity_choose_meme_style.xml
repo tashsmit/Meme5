@@ -11,7 +11,6 @@
     tools:context="meme5.c4q.nyc.meme_project.ChooseMemeStyle">
 
     <LinearLayout
-        android:id="@+id/stepsBar"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"

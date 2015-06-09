@@ -22,18 +22,11 @@
             android:label="@string/title_activity_choose_meme_style" >
         </activity>
         <activity
-            android:name=".VanillaMeme"
-            android:label="@string/title_activity_vanilla_test" >
-
+            android:name=".VanillaMeme" >
         </activity>
 
         <activity
-            android:name=".SaveShare"
-            android:label="@string/title_activity_add_text">
-        </activity>
-
-        <activity
-            android:name=".DemotivationalMemeActivity"
+            android:name=".DemotivationalMeme"
             android:label="@string/title_activity_demotivational_meme">
         </activity>
         <activity

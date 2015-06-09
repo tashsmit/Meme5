@@ -1,120 +1,120 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:layout_centerVertical="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@drawable/tile"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:tileMode="repeat"
     tools:context=".MainActivity">
 
     <LinearLayout
-        android:id="@+id/stepsBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/step1"
+            style="@style/Steps"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView"
-            android:layout_weight="1"
-            android:fontFamily="times"
-            android:gravity="center"
-            android:text="STEP 1"
-            android:textColor="#ffffff"
+            android:layout_height="match_parent"
+            android:text="@string/step_one"
             android:textSize="20dp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/step2"
+            style="@style/Steps"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView"
-            android:layout_weight="1"
-            android:fontFamily="times"
-            android:gravity="center"
-            android:text="STEP 2"
-            android:textColor="#ffffff"
-            android:textSize="15dp" />
+            android:layout_height="match_parent"
+            android:text="@string/step_two" />
 
         <TextView
             android:id="@+id/step3"
+            style="@style/Steps"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView"
-            android:layout_weight="1"
-            android:fontFamily="times"
-            android:gravity="center"
-            android:text="STEP 3"
-            android:textColor="#ffffff"
-            android:textSize="15dp" />
-
-
+            android:layout_height="match_parent"
+            android:text="@string/step_three" />
     </LinearLayout>
 
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="80dp"
-        android:layout_gravity="center"
-        android:src="@drawable/title" />
-
-    <TextView
-        android:id="@+id/description"
-        android:layout_width="600dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:fontFamily="times"
-        android:gravity="center"
-        android:text="TAKE A PICTURE OR SELECT FROM GALLERY"
-        android:textColor="#ffffff"
-        android:textSize="20dp"
-        android:textStyle="bold" />
-
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="20"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="6"
+            android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/albumButton"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/albumimage"
-                android:onClick="loadImagefromGallery" />
+                android:layout_weight="1"
+                android:src="@drawable/smiley" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:layout_marginLeft="-15dp"
+                android:src="@drawable/title" />
+
+
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_weight="3"
+            android:fontFamily="serif"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="TAKE A PICTURE OR SELECT FROM GALLERY"
+            android:textColor="#ffffff"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="6"
+            android:orientation="horizontal">
 
             <ImageButton
                 android:id="@+id/cameraButton"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
+                android:layout_marginLeft="100dp"
+                android:layout_marginRight="40dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/cameraimage" />
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/cameraimage"/>
+
+            <ImageButton
+                android:id="@+id/albumButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="100dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/albumimage"/>
 
         </LinearLayout>
     </LinearLayout>
-
-
 </LinearLayout>
 

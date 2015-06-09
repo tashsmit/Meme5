@@ -11,7 +11,6 @@
     tools:context=".MainActivity">
 
     <LinearLayout
-        android:id="@+id/stepsBar"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
@@ -67,7 +66,7 @@
             android:layout_height="0dp"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:fontFamily="times"
+            android:fontFamily="serif"
             android:gravity="center"
             android:text="TAKE A PICTURE OR SELECT FROM GALLERY"
             android:textColor="#ffffff"
@@ -89,8 +88,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_weight="1"
-            android:background="@drawable/cameraimage"
-            android:onClick="takePicture" />
+            android:background="@drawable/cameraimage"/>
 
         <ImageButton
             android:id="@+id/albumButton"
@@ -100,8 +98,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_weight="1"
-            android:background="@drawable/albumimage"
-            android:onClick="loadImagefromGallery" />
+            android:background="@drawable/albumimage" />
 
     </LinearLayout>
 </LinearLayout>

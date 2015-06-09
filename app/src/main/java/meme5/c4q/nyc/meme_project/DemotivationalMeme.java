@@ -33,7 +33,7 @@ import java.util.Date;
 /**
  * Created by c4q-anthonyf on 6/5/15.
  */
-public class DemotivationalMemeActivity extends Activity {
+public class DemotivationalMeme extends Activity {
 
     Bitmap image, memeImage;
     ImageView preview;
@@ -118,7 +118,7 @@ public class DemotivationalMemeActivity extends Activity {
         public void onTextChanged(CharSequence s, int start, int before, int count) {
         }
     }
-    
+
     public Bitmap drawTextToBitmap(Bitmap bitmap, String mText1, boolean largeText) {
         try {
             android.graphics.Bitmap.Config bitmapConfig = bitmap.getConfig();

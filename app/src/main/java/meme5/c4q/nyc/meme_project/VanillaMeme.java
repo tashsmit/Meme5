@@ -18,6 +18,7 @@ import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -36,6 +37,7 @@ public class VanillaMeme extends Activity {
     EditText topET, bottomET;
     Bitmap memeImage, image;
     Button save, share;
+    int textSize, strokeSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,9 +135,6 @@ public class VanillaMeme extends Activity {
             bitmap = bitmap.copy(bitmapConfig, true);
             Canvas canvas = new Canvas(bitmap);
 
-            int textSize = 40;
-            int strokeSize = 2;
-
             TextPaint paint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
             paint.setColor(Color.WHITE);
             paint.setTextSize(textSize);
@@ -146,7 +145,7 @@ public class VanillaMeme extends Activity {
 
             // center text
             int xPos = (bitmap.getWidth() / 2) - 2;     //-2 is for regulating the x position offset
-            int yPos = bitmap.getHeight() - 50;
+            int yPos = bitmap.getHeight() - 60;
 
             // create a static layout for word wrapping
             StaticLayout mTextLayout = new StaticLayout(mText1, paint, canvas.getWidth(), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
@@ -171,4 +170,20 @@ public class VanillaMeme extends Activity {
             return null;
         }
     }
+
+    // TODO splash
+    //TODO auto adjust text?
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        int width = preview.getWidth();
+        int height = preview.getHeight();
+
+        if (width < height)
+            textSize = height / 20;
+        else
+            textSize = height / 13;
+
+        strokeSize = textSize / 20;
+    }
+
 }

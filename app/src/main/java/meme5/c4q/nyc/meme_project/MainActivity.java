@@ -8,6 +8,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.content.Intent;
 import android.database.Cursor;
@@ -32,6 +33,32 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ImageButton camera = (ImageButton) findViewById(R.id.cameraButton);
+        ImageButton gallery = (ImageButton) findViewById(R.id.albumButton);
+
+        camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                    ContentValues values = new ContentValues();
+                    values.put(MediaStore.Images.Media.TITLE, "Image File name");
+                    Uri mCapturedImageURI = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, mCapturedImageURI);
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                }
+            }
+        });
+
+        gallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                if (galleryIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(galleryIntent, RESULT_LOAD_IMG);
+                }
+            }
+        });
     }
 
     // launches intent for meme layout choice
@@ -39,25 +66,6 @@ public class MainActivity extends Activity {
         Intent chooseMeme = new Intent(this, ChooseMemeStyle.class);
         chooseMeme.putExtra("imgFilePath", imgFilePath);
         startActivity(chooseMeme);
-    }
-
-    public void takePicture(View view) {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            ContentValues values = new ContentValues();
-            values.put(MediaStore.Images.Media.TITLE, "Image File name");
-            Uri mCapturedImageURI = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, mCapturedImageURI);
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        }
-    }
-
-    public void loadImagefromGallery(View view) {
-        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        if (galleryIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(galleryIntent, RESULT_LOAD_IMG);
-        }
-
     }
 
     @Override
