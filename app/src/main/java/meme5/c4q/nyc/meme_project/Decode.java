@@ -4,9 +4,16 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.text.Editable;
+import android.text.Layout;
+import android.text.StaticLayout;
+import android.text.TextPaint;
 import android.text.TextWatcher;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 /**
  * Created by sufeizhao on 6/9/15.
@@ -62,6 +69,4 @@ public class Decode {
 
         return bmpWithBorder;
     }
-
-
 }
