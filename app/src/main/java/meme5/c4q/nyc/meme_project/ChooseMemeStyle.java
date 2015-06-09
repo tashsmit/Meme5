@@ -23,12 +23,10 @@ import java.util.Random;
 
 public class ChooseMemeStyle extends Activity {
 
-
     public static final String TAG = "MEME_ACTIVITY";
     Button small, medium, large;
     protected Button nextButton;
     protected boolean vanilla;
-    protected Random slideShow;
     ImageView img, thumbnail;
     AnimationDrawable frameAnimation;
     String imgFilePath;
@@ -39,6 +37,7 @@ public class ChooseMemeStyle extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_meme_style);
 
+        //Get Image Chosen and place it on the thumbnail ImageView
         Bundle bundle = getIntent().getExtras();
         if(bundle.getString("imgFilePath") != null)
         {
@@ -49,7 +48,6 @@ public class ChooseMemeStyle extends Activity {
         thumbnail.setImageBitmap(bmp2);
 
         //apply fonts -
-        //TODO: need to find a way to add this font globally through style!
         TextView step1 = (TextView) findViewById(R.id.step1);
         TextView step2 = (TextView) findViewById(R.id.step2);
         TextView step3 = (TextView) findViewById(R.id.step3);
@@ -74,8 +72,7 @@ public class ChooseMemeStyle extends Activity {
             public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
                 Log.d(TAG, "onCheckedChanged()");
                 // Is the button now checked?
-//                boolean checked = ((RadioButton) view).isChecked();
-
+                //boolean checked = ((RadioButton) view).isChecked();
                 // Check which radio button was clicked
                 switch (checkedId) {
                     case R.id.chooseVanilla:
@@ -106,6 +103,8 @@ public class ChooseMemeStyle extends Activity {
                 }
             }
         });
+
+        //Intents to go to corresponding activity
 
         group.check(R.id.chooseDemotivational);
 
