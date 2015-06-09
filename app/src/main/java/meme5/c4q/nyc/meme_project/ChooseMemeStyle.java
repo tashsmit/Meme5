@@ -25,8 +25,7 @@ public class ChooseMemeStyle extends Activity {
 
 
     public static final String TAG = "MEME_ACTIVITY";
-    protected RadioGroup styleGroup;
-    protected RadioButton styleButton;
+    Button small, medium, large;
     protected Button nextButton;
     protected boolean vanilla;
     protected Random slideShow;
@@ -55,7 +54,10 @@ public class ChooseMemeStyle extends Activity {
         TextView step2 = (TextView) findViewById(R.id.step2);
         TextView step3 = (TextView) findViewById(R.id.step3);
         TextView title = (TextView) findViewById(R.id.title);
-        TextView vanillaRadio = (TextView) findViewById(R.id.chooseVanilla);
+        small=(Button) findViewById(R.id.small);
+        medium=(Button) findViewById(R.id.medium);
+        large=(Button) findViewById(R.id.large);
+
         TextView demotivationalRadio = (TextView) findViewById(R.id.chooseDemotivational);
 
         Typeface tf = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/ubuntu.ttf");
@@ -63,7 +65,7 @@ public class ChooseMemeStyle extends Activity {
         step2.setTypeface(tf);
         step3.setTypeface(tf);
         title.setTypeface(tf);
-        vanillaRadio.setTypeface(tf);
+
         demotivationalRadio.setTypeface(tf);
 
         RadioGroup group = (RadioGroup) findViewById(R.id.styleGroup);

@@ -10,7 +10,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
@@ -19,184 +24,140 @@ import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
 
 public class VanillaMeme extends Activity {
 
     ImageView image;
     EditText line1;
-    Bitmap bmp, bmp2;
-    String line1Text;
+    EditText line2;
+    Bitmap bmp2;
     String imgFilePath;
-    Button nextButton;
     TextView title;
-    RadioButton small, medium, large;
+    Button share;
+    Button save;
+    RelativeLayout memeLayout;
+    Button small, medium, large;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vanilla_meme);
 
+
         //get image path from previous activity
         Bundle bundle = getIntent().getExtras();
-        if (bundle.getString("imgFilePath") != null) {
-            imgFilePath = bundle.getString("imgFilePath");
-            decodeFile(imgFilePath);
+
+        try {
+            if (bundle.getString("imgFilePath") != null) {
+                imgFilePath = bundle.getString("imgFilePath");
+                image = (ImageView) findViewById(R.id.testImage);
+                bmp2 = BitmapFactory.decodeFile(imgFilePath);
+                image.setImageBitmap(bmp2);
+            }
+        } catch (NullPointerException e) {
+            Toast.makeText(this, "No Image Found", Toast.LENGTH_LONG).show();
         }
 
+
+        save = (Button) findViewById(R.id.saveButton);
+        share = (Button) findViewById(R.id.shareButton);
         line1 = (EditText) findViewById(R.id.top);
+        line2 = (EditText) findViewById(R.id.bottom);
         image = (ImageView) findViewById(R.id.testImage);
-        nextButton = (Button) findViewById(R.id.next);
         title = (TextView) findViewById(R.id.title);
-        small = (RadioButton) findViewById(R.id.small);
-        medium = (RadioButton) findViewById(R.id.medium);
-        large = (RadioButton) findViewById(R.id.large);
+        small = (Button) findViewById(R.id.small);
+        medium = (Button) findViewById(R.id.medium);
+        large = (Button) findViewById(R.id.large);
+        memeLayout = (RelativeLayout) findViewById(R.id.memeLayout);
 
 
-        //apply font
+        //apply Font Typeface
         Typeface tf = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/ubuntu.ttf");
         title.setTypeface(tf);
         small.setTypeface(tf);
         medium.setTypeface(tf);
         large.setTypeface(tf);
         line1.setTypeface(tf);
-        nextButton.setTypeface(tf);
+        line2.setTypeface(tf);
 
-        //create on check listener to see which size is chosen
-        RadioGroup group = (RadioGroup) findViewById(R.id.textSizes);
-        group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
 
-                line1Text = line1.getText().toString();
-
-                switch (checkedId) {
-                    case R.id.small:
-                        bmp = drawTextToBitmap(bmp2, line1Text, 40, 2);
-                        image.setImageBitmap(bmp);
-                        break;
-                    case R.id.medium:
-                        bmp = drawTextToBitmap(bmp2, line1Text, 55, 3);
-                        image.setImageBitmap(bmp);
-                        break;
-                    case R.id.large:
-                        bmp = drawTextToBitmap(bmp2, line1Text, 80, 4);
-                        image.setImageBitmap(bmp);
-                        break;
-                }
-            }
-        });
     }
 
-    //method used to write text on image
-    public Bitmap drawTextToBitmap(Bitmap bitmap, String mText1, int textSize, int strokeSize) {
+    //following three methods will change the font size for the textViews
+    public void textSizeSmall(View v) {
+        line1.setTextSize(15);
+        line2.setTextSize(15);
+    }
+
+    public void textSizeMed(View v) {
+        line1.setTextSize(25);
+        line2.setTextSize(25);
+    }
+
+    public void textSizeLg(View v) {
+        line1.setTextSize(35);
+        line2.setTextSize(35);
+    }
+
+
+//Method to create a bitmap from a view, in our case from a linearLayout
+    public Bitmap getBitmapFromView(View view) {
+        Bitmap returnedBitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(returnedBitmap);
+
+        Drawable bgDrawable = view.getBackground();
+        if (bgDrawable != null)
+            bgDrawable.draw(canvas);
+        else
+            canvas.drawColor(Color.WHITE);
+        view.draw(canvas);
+        return returnedBitmap;
+    }
+
+//Method to share the meme
+    public void sharingM(View view) {
+
+        bmp2 = getBitmapFromView(memeLayout);
+
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("image/jpeg");
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bmp2.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        File f = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
         try {
-            android.graphics.Bitmap.Config bitmapConfig = bitmap.getConfig();
-
-            // set default bitmap config if none
-            if (bitmapConfig == null) {
-                bitmapConfig = android.graphics.Bitmap.Config.ARGB_8888;
-            }
-            // resource bitmaps are imutable,
-            // so we need to convert it to mutable one
-            bitmap = bitmap.copy(bitmapConfig, true);
-            Canvas canvas = new Canvas(bitmap);
-            // new antialised Paint
-            TextPaint paint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-            paint.setColor(Color.rgb(255, 255, 255));
-            // text size in pixels
-            paint.setTextSize(textSize);
-            // text shadow
-            paint.setShadowLayer(1f, 0f, 1f, Color.DKGRAY);
-            // make text font impact
-            Typeface tf = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/impact.ttf");
-            paint.setTypeface(tf);
-            paint.setTextAlign(Paint.Align.CENTER);
-            // center text
-            int xPos = (bitmap.getWidth() / 2) - 2;     //-2 is for regulating the x position offset
-
-            // create a static layout for word wrapping
-            StaticLayout mTextLayout = new StaticLayout(mText1, paint, canvas.getWidth(), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
-            canvas.translate(xPos, 10); //position the text
-            //draw text without stroke first
-            mTextLayout.draw(canvas);
-
-            //set options on paint for stroke
-            paint.setColor(Color.BLACK);
-            paint.setStyle(Paint.Style.STROKE);
-            paint.setStrokeWidth(strokeSize);
-
-            //then redraw text for stroke
-            mTextLayout.draw(canvas);
-
-            return bitmap;
-        } catch (Exception e) {
-            // TODO: handle exception
-
-
-            return null;
+            f.createNewFile();
+            FileOutputStream fo = new FileOutputStream(f);
+            fo.write(bytes.toByteArray());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
+        share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/temporary_file.jpg"));
+        startActivity(Intent.createChooser(share, "Share Image"));
     }
 
-    //method used to resize, rotate and set up bitmap
-    private void decodeFile(String filePath) {
+//Method to Save the Meme into the camera roll
+    public void savingM(View view) {
+        bmp2 = getBitmapFromView(memeLayout);
 
-        // Decode image size
-        BitmapFactory.Options o = new BitmapFactory.Options();
-        o.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(filePath, o);
-
-        // The new size we want to scale to
-        final int REQUIRED_SIZE = 1024;
-
-        // Find the correct scale value. It should be the power of 2.
-        int width_tmp = o.outWidth, height_tmp = o.outHeight;
-        int scale = 1;
-        while (true) {
-            if (width_tmp < REQUIRED_SIZE && height_tmp < REQUIRED_SIZE)
-                break;
-            width_tmp /= 2;
-            height_tmp /= 2;
-            scale *= 2;
-        }
-
-        // Decode with inSampleSize
-        BitmapFactory.Options o2 = new BitmapFactory.Options();
-        o2.inSampleSize = scale;
-        Bitmap b1 = BitmapFactory.decodeFile(filePath, o2);
-        bmp2= ExifUtils.rotateBitmap(filePath, b1);
+        MediaStore.Images.Media.insertImage(VanillaMeme.this.getContentResolver(), bmp2, "title.jpg", "some description");
+        Toast.makeText(this, "Meme saved!", Toast.LENGTH_LONG).show();
     }
-
-    public void launchLastActivity(View view){
-
-        if(bmp != null) {
-            try {
-                //Write file
-                String filename = "meme.png";
-                FileOutputStream stream = this.openFileOutput(filename, Context.MODE_PRIVATE);
-                bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-
-                //Cleanup
-                stream.close();
-                bmp.recycle();
-
-                //Pop intent
-                Intent lastActivity = new Intent(VanillaMeme.this, add_text.class);
-                lastActivity.putExtra("memeImage", filename);
-                startActivity(lastActivity);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
 
 }
