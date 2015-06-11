@@ -167,22 +167,16 @@ public class VanillaMeme extends Activity {
     public void saveMemeToCacheDir(View v){
 
         bmp2 = getBitmapFromView(memeLayout);
-
-
-
         String timeStamp = new SimpleDateFormat("MMddyyyy_HHmmss").format(new Date());
         String imageName="Meme_"+timeStamp+".jpg";
         File path= Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         File myFile=new File(path,imageName);
-
-
         FileOutputStream fos=null;
 
 
         try{
             fos=new FileOutputStream(myFile);
             bmp2.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
