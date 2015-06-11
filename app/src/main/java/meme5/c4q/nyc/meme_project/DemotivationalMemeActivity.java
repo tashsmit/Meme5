@@ -110,6 +110,8 @@ public class DemotivationalMemeActivity extends Activity {
         Toast.makeText(this, "Meme saved!", Toast.LENGTH_LONG).show();
     }
 
+
+    //Method to save meme to ExternalPublicDirectory
     public void saveMemeToCacheDir(View v){
 
         bmp2 = getBitmapFromView(memeLayout);
