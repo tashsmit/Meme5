@@ -48,9 +48,7 @@ public class ChooseMemeStyle extends Activity {
         thumbnail.setImageBitmap(bmp2);
 
         //apply fonts -
-        TextView step1 = (TextView) findViewById(R.id.step1);
-        TextView step2 = (TextView) findViewById(R.id.step2);
-        TextView step3 = (TextView) findViewById(R.id.step3);
+
         TextView title = (TextView) findViewById(R.id.title);
         small=(Button) findViewById(R.id.small);
         medium=(Button) findViewById(R.id.medium);
@@ -59,9 +57,6 @@ public class ChooseMemeStyle extends Activity {
         TextView demotivationalRadio = (TextView) findViewById(R.id.chooseDemotivational);
 
         Typeface tf = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/ubuntu.ttf");
-        step1.setTypeface(tf);
-        step2.setTypeface(tf);
-        step3.setTypeface(tf);
         title.setTypeface(tf);
 
         demotivationalRadio.setTypeface(tf);
