@@ -39,6 +39,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class VanillaMeme extends Activity {
@@ -158,6 +160,54 @@ public class VanillaMeme extends Activity {
 
         MediaStore.Images.Media.insertImage(VanillaMeme.this.getContentResolver(), bmp2, "title.jpg", "some description");
         Toast.makeText(this, "Meme saved!", Toast.LENGTH_LONG).show();
+    }
+
+    public void saveMemeToCacheDir(View v){
+
+        bmp2 = getBitmapFromView(memeLayout);
+
+
+
+        String timeStamp = new SimpleDateFormat("MMddyyyy_HHmmss").format(new Date());
+        String imageName="Meme_"+timeStamp+".jpg";
+        File path= Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File myFile=new File(path,imageName);
+
+
+        FileOutputStream fos=null;
+
+
+        try{
+            fos=new FileOutputStream(myFile);
+            bmp2.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "NO File Found",Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                fos.close();
+                Toast.makeText(VanillaMeme.this,"File Saved",Toast.LENGTH_LONG).show();
+                try{
+                    Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                    Uri uri = Uri.fromFile(myFile);
+                    mediaScanIntent.setData(uri);
+                    sendBroadcast(mediaScanIntent);
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (NullPointerException e){
+                e.printStackTrace();
+                Toast.makeText(this, "No File Found To Save",Toast.LENGTH_LONG).show();
+            }
+        }
+
+
     }
 
 }
