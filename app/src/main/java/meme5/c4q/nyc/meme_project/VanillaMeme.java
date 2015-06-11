@@ -1,7 +1,6 @@
 package meme5.c4q.nyc.meme_project;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -18,7 +17,6 @@ import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -36,8 +34,9 @@ public class VanillaMeme extends Activity {
     ImageView preview;
     EditText topET, bottomET;
     Bitmap memeImage, image;
-    Button save, share;
-    int textSize, strokeSize;
+    Button switch_btn, save, share;
+    int textSize, strokeSize, textLength;
+    String imgFilePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +46,11 @@ public class VanillaMeme extends Activity {
         topET = (EditText) findViewById(R.id.top);
         bottomET = (EditText) findViewById(R.id.bottom);
         preview = (ImageView) findViewById(R.id.testImage);
+        switch_btn = (Button) findViewById(R.id.switch_btn);
         save = (Button) findViewById(R.id.save);
         share = (Button) findViewById(R.id.share);
 
         //get image path from previous activity
-        String imgFilePath;
         Bundle bundle = getIntent().getExtras();
         if (bundle.getString("imgFilePath") != null) {
             imgFilePath = bundle.getString("imgFilePath");
@@ -63,35 +62,9 @@ public class VanillaMeme extends Activity {
         topET.addTextChangedListener(tw);
         bottomET.addTextChangedListener(tw);
 
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String timeStamp = "meme_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".jpg";
-                MediaStore.Images.Media.insertImage(getContentResolver(), memeImage, timeStamp, "Created with Meme5");
-                Toast.makeText(getApplicationContext(), "Meme saved!", Toast.LENGTH_LONG).show();
-            }
-        });
-
-        share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent share = new Intent(Intent.ACTION_SEND);
-                share.setType("image/jpeg");
-                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                memeImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-                File f = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
-                try {
-                    f.createNewFile();
-                    FileOutputStream fo = new FileOutputStream(f);
-                    fo.write(bytes.toByteArray());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/temporary_file.jpg"));
-                startActivity(Intent.createChooser(share, "Share Image"));
-            }
-        });
+        switch_btn.setOnClickListener(new SwitchListener());
+        save.setOnClickListener(new SaveListener());
+        share.setOnClickListener(new ShareListener());
     }
 
     // custom TextWatcher updates preview when text is added
@@ -106,23 +79,23 @@ public class VanillaMeme extends Activity {
 
         @Override
         public void afterTextChanged(Editable s) {
-            memeImage = drawTextToBitmap(image.copy(image.getConfig(), true), top.getText().toString(), true);
-            memeImage = drawTextToBitmap(memeImage, bottom.getText().toString(), false);
+            memeImage = drawTextToBitmap(image.copy(image.getConfig(), true), top.getText().toString().toUpperCase(), true);
+            memeImage = drawTextToBitmap(memeImage, bottom.getText().toString().toUpperCase(), false);
             preview.setImageBitmap(memeImage);
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            textLength = s.length();
         }
 
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-        }
     }
 
 
     // Method used to write text on image
-
     public Bitmap drawTextToBitmap(Bitmap bitmap, String mText1, boolean top) {
         try {
             android.graphics.Bitmap.Config bitmapConfig = bitmap.getConfig();
@@ -143,16 +116,20 @@ public class VanillaMeme extends Activity {
             paint.setTypeface(tf);
             paint.setTextAlign(Paint.Align.CENTER);
 
-            // center text
-            int xPos = (bitmap.getWidth() / 2) - 2;     //-2 is for regulating the x position offset
-            int yPos = bitmap.getHeight() - 60;
-
             // create a static layout for word wrapping
+            // checked for number of chars entered to move yPos of bottom text so new lines do not get cut off
             StaticLayout mTextLayout = new StaticLayout(mText1, paint, canvas.getWidth(), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+            int xPos = (bitmap.getWidth() / 2) - 2;
+            int yPos = bitmap.getHeight() - 70;
             if (top)
                 canvas.translate(xPos, 10);
-            else
+            else {
+                while ((textLength * 46) > preview.getWidth()) {
+                    yPos -= 45;
+                    textLength -= 14;
+                }
                 canvas.translate(xPos, yPos);
+            }
 
             //draw text without stroke first
             mTextLayout.draw(canvas);
@@ -171,8 +148,6 @@ public class VanillaMeme extends Activity {
         }
     }
 
-    // TODO splash
-    //TODO auto adjust text?
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         int width = preview.getWidth();
@@ -186,4 +161,46 @@ public class VanillaMeme extends Activity {
         strokeSize = textSize / 20;
     }
 
+    public class SwitchListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            Intent demotivationalMeme = new Intent(getApplicationContext(), DemotivationalMeme.class);
+            demotivationalMeme.putExtra("imgFilePath", imgFilePath);
+            demotivationalMeme.putExtra("top", topET.getText().toString());
+            demotivationalMeme.putExtra("bottom", bottomET.getText().toString());
+            startActivity(demotivationalMeme);
+        }
+    }
+
+    public class SaveListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            String timeStamp = "meme_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".jpg";
+            MediaStore.Images.Media.insertImage(getContentResolver(), memeImage, timeStamp, "Created with Meme5");
+            Toast.makeText(getApplicationContext(), "Meme has been saved!", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public class ShareListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            Intent share = new Intent(Intent.ACTION_SEND);
+            share.setType("image/jpeg");
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            memeImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+            File f = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
+            try {
+                f.createNewFile();
+                FileOutputStream fo = new FileOutputStream(f);
+                fo.write(bytes.toByteArray());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/temporary_file.jpg"));
+            startActivity(Intent.createChooser(share, "Share Image"));
+        }
+    }
 }

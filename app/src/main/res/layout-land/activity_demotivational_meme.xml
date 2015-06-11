@@ -10,36 +10,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="meme5.c4q.nyc.meme_project.DemotivationalMeme">
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="2"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/step1"
-            style="@style/Steps"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/step_one" />
-
-        <TextView
-            android:id="@+id/step2"
-            style="@style/Steps"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/step_two"/>
-
-        <TextView
-            android:id="@+id/step3"
-            style="@style/Steps"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/step_three"
-            android:textSize="20dp"
-            android:textStyle="bold" />
-    </LinearLayout>
-
     <ImageView
         android:id="@+id/preview"
         android:layout_width="0dp"
@@ -49,46 +19,51 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="7"
         android:layout_marginTop="5dp"
+        android:layout_weight="7"
         android:orientation="vertical">
 
         <EditText
             android:id="@+id/large"
+            android:maxLength="40"
+            android:textColor="#fff"
+            android:textColorHint="#fff"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:hint="Enter Large Text Here"
-            android:maxLength="90"
-            android:textColor="#ffffff"
-            android:textColorHint="#ffffff" />
+            android:layout_weight="10"
+            android:hint="@string/large" />
 
         <EditText
             android:id="@+id/small"
+            android:maxLength="40"
+            android:textColor="#fff"
+            android:textColorHint="#fff"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:hint="Enter Small Text Here"
-            android:maxLength="90"
-            android:textColor="#ffffff"
-            android:textColorHint="#ffffff" />
+            android:layout_weight="10"
+            android:hint="@string/small"/>
 
         <Button
             android:id="@+id/save"
-            style="?android:attr/buttonStyleSmall"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:text="Save" />
+            android:layout_weight="6"
+            android:text="@string/save"
+            android:textColor="#fff"
+            android:textSize="20dp" />
+
         <Button
             android:id="@+id/share"
-            style="?android:attr/buttonStyleSmall"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:text="Share" />
+            android:layout_weight="6"
+            android:text="@string/share"
+            android:textColor="#fff"
+            android:textSize="20dp" />
 
     </LinearLayout>
 </LinearLayout>

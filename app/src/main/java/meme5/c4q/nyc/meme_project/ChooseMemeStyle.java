@@ -15,7 +15,6 @@ import android.widget.RadioGroup;
 
 public class ChooseMemeStyle extends Activity {
 
-
     public static final String TAG = "MEME_ACTIVITY";
     protected Button nextButton;
     protected boolean vanilla;

@@ -30,6 +30,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static meme5.c4q.nyc.meme_project.VanillaMeme.*;
+
 /**
  * Created by c4q-anthonyf on 6/5/15.
  */
@@ -63,35 +65,8 @@ public class DemotivationalMeme extends Activity {
         largeET.addTextChangedListener(tw);
         smallET.addTextChangedListener(tw);
 
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String timeStamp = "meme_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".jpg";
-                MediaStore.Images.Media.insertImage(getContentResolver(), memeImage, timeStamp, "Created with Meme5");
-                Toast.makeText(getApplicationContext(), "Meme saved!", Toast.LENGTH_LONG).show();
-            }
-        });
-
-        share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent share = new Intent(Intent.ACTION_SEND);
-                share.setType("image/jpeg");
-                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                memeImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-                File f = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
-                try {
-                    f.createNewFile();
-                    FileOutputStream fo = new FileOutputStream(f);
-                    fo.write(bytes.toByteArray());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/temporary_file.jpg"));
-                startActivity(Intent.createChooser(share, "Share Image"));
-            }
-        });
+        save.setOnClickListener(new SaveListener());
+        share.setOnClickListener(new ShareListener());
     }
 
     public class TextWatch implements TextWatcher {
@@ -105,7 +80,7 @@ public class DemotivationalMeme extends Activity {
 
         @Override
         public void afterTextChanged(Editable s) {
-            memeImage = drawTextToBitmap(image.copy(image.getConfig(), true), large.getText().toString(), true);
+            memeImage = drawTextToBitmap(image.copy(image.getConfig(), true), large.getText().toString().toUpperCase(), true);
             memeImage = drawTextToBitmap(memeImage, small.getText().toString(), false);
             preview.setImageBitmap(memeImage);
         }
@@ -159,6 +134,37 @@ public class DemotivationalMeme extends Activity {
             return bitmap;
         } catch (Exception e) {
             return null;
+        }
+    }
+
+    public class SaveListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            String timeStamp = "meme_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".jpg";
+            MediaStore.Images.Media.insertImage(getContentResolver(), memeImage, timeStamp, "Created with Meme5");
+            Toast.makeText(getApplicationContext(), "Meme has been saved!", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public class ShareListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            Intent share = new Intent(Intent.ACTION_SEND);
+            share.setType("image/jpeg");
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            memeImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+            File f = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
+            try {
+                f.createNewFile();
+                FileOutputStream fo = new FileOutputStream(f);
+                fo.write(bytes.toByteArray());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/temporary_file.jpg"));
+            startActivity(Intent.createChooser(share, "Share Image"));
         }
     }
 }

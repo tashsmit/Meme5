@@ -8,12 +8,13 @@
     <string name="title_activity_splash_screen">Meme 5</string>
 
     <string name="choose_meme_title">Choose a Meme Style</string>
-    <string name="next_button">Next</string>
+    <string name="next_button">Next  →</string>
     <string name="vanilla_radio">Vanilla</string>
     <string name="demotivational_radio">Demotivational</string>
-
-
-    <string name="step_one">STEP 1</string>
-    <string name="step_two">STEP 2</string>
-    <string name="step_three">STEP 3</string>
+    <string name="save">Save</string>
+    <string name="share">Share</string>
+    <string name="large">Enter Large Text Here</string>
+    <string name="small">Enter Small Text Here</string>
+    <string name="top">Enter Top Text Here</string>
+    <string name="bottom">Enter Bottom Text Here</string>
 </resources>

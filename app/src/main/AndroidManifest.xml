@@ -22,7 +22,8 @@
             android:label="@string/title_activity_choose_meme_style" >
         </activity>
         <activity
-            android:name=".VanillaMeme" >
+            android:name=".VanillaMeme"
+            android:label="@string/title_activity_vanilla_meme">
         </activity>
 
         <activity
