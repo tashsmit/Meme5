@@ -14,34 +14,35 @@
         android:largeHeap="true">
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            >
+
         </activity>
 
         <activity
             android:name=".ChooseMemeStyle"
-            android:label="@string/title_activity_choose_meme_style" >
+            android:label="@string/title_activity_choose_meme_style"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".VanillaMeme"
-            android:label="@string/title_activity_vanilla_test" >
+            android:label="@string/title_activity_vanilla_test"
+            android:screenOrientation="portrait">
 
-        </activity>
-
-        <activity
-            android:name=".add_text"
-            android:label="@string/title_activity_add_text">
         </activity>
 
         <activity
             android:name=".DemotivationalMemeActivity"
-            android:label="@string/title_activity_demotivational_meme">
+            android:label="@string/title_activity_demotivational_meme"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".SplashScreen"
-            android:label="@string/title_activity_splash_screen" >
+            android:label="@string/title_activity_splash_screen"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

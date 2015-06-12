@@ -2,6 +2,7 @@ package meme5.c4q.nyc.meme_project;
 
 /**
  * Created by c4q-tashasmith on 6/7/15.
+ * This activity will display a screen when the app is initially opened for 2.5 seconds
  */
 import android.app.Activity;
 import android.content.Intent;
@@ -15,8 +16,9 @@ import android.widget.TextView;
 
 public class SplashScreen extends Activity {
 
+
     /** Duration of wait **/
-    private final int SPLASH_DISPLAY_LENGTH = 2500;
+    private final int SPLASH_DISPLAY_LENGTH = 1000;//Time which activity will be displayed for in ms
     ImageView img;
     AnimationDrawable frameAnimation;
 

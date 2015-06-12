@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -13,58 +13,86 @@
     tools:context="meme5.c4q.nyc.meme_project.DemotivationalMemeActivity">
 
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:hint="large text"
-        android:textColorHint="#ffffff"
-        android:textColor="#ffffff"
-        android:maxLength="90"
-        android:id="@+id/large"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:hint="small text"
-        android:textColorHint="#ffffff"
-        android:textColor="#ffffff"
-        android:maxLength="90"
-        android:id="@+id/small"/>
+
+
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="450dp"
+    android:id="@+id/memeLayout"
+    android:layout_below="@+id/linearLayout"
+    android:background="#fc0a0a0a"
+    android:layout_marginTop="20dp">
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="fill_parent"
         android:layout_weight="7"
-        android:id="@+id/preview"/>
+        android:id="@+id/image"
+        android:layout_above="@+id/title"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Title"
+        android:textSize="40dp"
+        android:textStyle="bold"
+        android:textColorHint="#ffffff"
+        android:textColor="#ffffff"
+        android:maxLength="10"
+        android:gravity="center"
+        android:id="@+id/title"
+        android:background="@null"
+        android:layout_above="@+id/description"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:textSize="25dp"
+        android:hint="Funny Text"
+        android:background="@null"
+        android:textColorHint="#ffffff"
+        android:textColor="#ffffff"
+        android:maxLength="90"
+        android:gravity="center"
+        android:id="@+id/description"/>
+
+</RelativeLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
 
         <Button
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Preview Text"
-            android:id="@+id/previewText"
+            android:text="Save Image"
+            android:id="@+id/saveButton"
+            android:onClick="saveMemeToCacheDir"
             android:layout_gravity="center_horizontal" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Next"
-            android:id="@+id/next"
+            android:text="Share Image"
+            android:id="@+id/shareButton"
             android:layout_gravity="center_horizontal"
-            android:onClick="launchLastActivity"/>
+            android:onClick="sharingM"/>
 
         </LinearLayout>
 
 
 
-</LinearLayout>
+</RelativeLayout>
