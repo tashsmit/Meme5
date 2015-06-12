@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.util.Log;
+import android.widget.Toast;
 
 /**
  * Created by sufeizhao on 6/9/15.
@@ -22,6 +24,8 @@ public class Decode {
 
         // Find the correct scale value. It should be the power of 2.
         int width_tmp = o.outWidth, height_tmp = o.outHeight;
+        Log.d("width", String.valueOf(width_tmp)); //1456
+        Log.d("height", String.valueOf(height_tmp)); //2592
         int scale = 1;
         while (true) {
             if (width_tmp < REQUIRED_SIZE && height_tmp < REQUIRED_SIZE)

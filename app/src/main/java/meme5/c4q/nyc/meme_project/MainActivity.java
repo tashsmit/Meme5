@@ -8,6 +8,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.content.Intent;
@@ -27,6 +28,7 @@ public class MainActivity extends Activity {
     private static final int RESULT_LOAD_IMG = 0;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private String imgFilePath;
+    private Uri mCapturedImageURI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +45,7 @@ public class MainActivity extends Activity {
                 if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
                     ContentValues values = new ContentValues();
                     values.put(MediaStore.Images.Media.TITLE, "Image File name");
-                    Uri mCapturedImageURI = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+                    mCapturedImageURI = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, mCapturedImageURI);
                     startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
                 }
@@ -59,6 +61,19 @@ public class MainActivity extends Activity {
                 }
             }
         });
+
+
+        Button google = (Button) findViewById(R.id.google);
+        google.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), Google.class);
+                startActivity(intent);
+            }
+        });
+
+
+
     }
 
     // launches intent for meme layout choice
@@ -73,15 +88,17 @@ public class MainActivity extends Activity {
         try {
             if (requestCode == 1 && resultCode == RESULT_OK) {
 
-                Uri selectedImage = data.getData();
+                Uri selectedImage = mCapturedImageURI;
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
-                String[] proj = {MediaStore.Images.Media.DATA};
-                Cursor cursor = managedQuery(selectedImage, proj, null, null, null);
-                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
                 cursor.moveToFirst();
-                imgFilePath = cursor.getString(column_index);
 
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                //file path of captured image
+                imgFilePath = cursor.getString(columnIndex);
 
+                cursor.close();
                 launchChooseMeme();
 
             } else if (requestCode == 0 && resultCode == RESULT_OK && data != null) {
