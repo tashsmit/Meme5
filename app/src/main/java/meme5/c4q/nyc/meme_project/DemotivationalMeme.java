@@ -1,7 +1,6 @@
 package meme5.c4q.nyc.meme_project;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -13,6 +12,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
+import android.text.Layout;
+import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.text.TextWatcher;
 import android.view.View;
@@ -21,8 +22,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -30,43 +29,58 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static meme5.c4q.nyc.meme_project.VanillaMeme.*;
-
 /**
- * Created by c4q-anthonyf on 6/5/15.
+ * Created by c4q-anthonyf on 6/5/15
+ * Edited by c4q-sufeiz on 6/8/15
  */
 public class DemotivationalMeme extends Activity {
 
     Bitmap image, memeImage;
     ImageView preview;
-    EditText largeET, smallET;
-    Button save, share;
+    EditText topET, bottomET;
+    Button switch_btn, save, share;
+    String imgFilePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_demotivational_meme);
 
-        preview = (ImageView) findViewById(R.id.preview);
-        largeET = (EditText) findViewById(R.id.large);
-        smallET = (EditText) findViewById(R.id.small);
-        save = (Button) findViewById(R.id.save);
-        share = (Button) findViewById(R.id.share);
+        initializeViews();
 
-        String imgFilePath;
+        // get image and text fromt bundle, populate views
         Bundle bundle = getIntent().getExtras();
         if (bundle.getString("imgFilePath") != null) {
             imgFilePath = bundle.getString("imgFilePath");
             image = Decode.decodeFile(image, imgFilePath, true);
-            preview.setImageBitmap(image);
+            topET.setText(bundle.getString("top"));
+            bottomET.setText(bundle.getString("bottom"));
+
+            if (!topET.getText().toString().isEmpty() || !bottomET.getText().toString().isEmpty()) {
+                memeImage = drawTextToBitmap(image.copy(image.getConfig(), true), topET.getText().toString().toUpperCase(), true);
+                memeImage = drawTextToBitmap(memeImage, bottomET.getText().toString().toUpperCase(), false);
+                preview.setImageBitmap(memeImage);
+            } else
+                preview.setImageBitmap(image);
         }
 
-        TextWatch tw = new TextWatch(largeET, smallET);
-        largeET.addTextChangedListener(tw);
-        smallET.addTextChangedListener(tw);
+        // custom textwatch draws text onto image as editText changes
+        TextWatch tw = new TextWatch(topET, bottomET);
+        topET.addTextChangedListener(tw);
+        bottomET.addTextChangedListener(tw);
 
+        switch_btn.setOnClickListener(new SwitchListener());
         save.setOnClickListener(new SaveListener());
         share.setOnClickListener(new ShareListener());
+    }
+
+    public void initializeViews() {
+        preview = (ImageView) findViewById(R.id.preview);
+        topET = (EditText) findViewById(R.id.large);
+        bottomET = (EditText) findViewById(R.id.small);
+        switch_btn = (Button) findViewById(R.id.switch_btn);
+        save = (Button) findViewById(R.id.save);
+        share = (Button) findViewById(R.id.share);
     }
 
     public class TextWatch implements TextWatcher {
@@ -78,25 +92,23 @@ public class DemotivationalMeme extends Activity {
             this.small = small;
         }
 
+        // as text changes, update image for preview of meme
         @Override
-        public void afterTextChanged(Editable s) {
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
             memeImage = drawTextToBitmap(image.copy(image.getConfig(), true), large.getText().toString().toUpperCase(), true);
             memeImage = drawTextToBitmap(memeImage, small.getText().toString(), false);
             preview.setImageBitmap(memeImage);
         }
-
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
-
+        public void afterTextChanged(Editable s) {}
         @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-        }
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
     }
 
     public Bitmap drawTextToBitmap(Bitmap bitmap, String mText1, boolean largeText) {
         try {
             android.graphics.Bitmap.Config bitmapConfig = bitmap.getConfig();
+            int textSize, heightOffset;
 
             // set default bitmap config if none
             if (bitmapConfig == null)
@@ -104,18 +116,16 @@ public class DemotivationalMeme extends Activity {
 
             // resource bitmaps are imutable, so we need to convert it to mutable one
             bitmap = bitmap.copy(bitmapConfig, true);
-            Canvas newCanvas = new Canvas(bitmap);
+            Canvas canvas = new Canvas(bitmap);
+            canvas.drawBitmap(bitmap, 0, 0, null);
 
-            newCanvas.drawBitmap(bitmap, 0, 0, null);
-            int textSize;
-            int heightOffset;
             if (largeText) {
-                textSize = 70;
-                heightOffset = 150;
+                textSize = 100;
+                heightOffset = 340;
                 mText1 = mText1.toUpperCase();
             } else {
-                textSize = 30;
-                heightOffset = 210;
+                textSize = 60;
+                heightOffset = 220;
             }
 
             TextPaint paint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
@@ -123,22 +133,35 @@ public class DemotivationalMeme extends Activity {
             paint.setTextSize(textSize);
             paint.setStyle(Paint.Style.FILL);
             paint.setShadowLayer(10f, 10f, 10f, Color.BLACK);
+            paint.setTextAlign(Paint.Align.CENTER);
 
             Rect rectText = new Rect();
             paint.getTextBounds(mText1, 0, mText1.length(), rectText);
 
-            newCanvas.drawText(mText1,
-                    newCanvas.getWidth() / 2 - rectText.width() / 2, newCanvas.getHeight() - 299 + rectText.height() + heightOffset, paint);
+            StaticLayout mTextLayout = new StaticLayout(mText1, paint, canvas.getWidth(), Layout.Alignment.ALIGN_NORMAL, 0.8f, 0.0f, false);
+            int xPos = (bitmap.getWidth() / 2) - 2;
+            int yPos = canvas.getHeight() + rectText.height() - heightOffset;
+            canvas.translate(xPos, yPos);
 
-
+            mTextLayout.draw(canvas);
             return bitmap;
         } catch (Exception e) {
             return null;
         }
     }
 
-    public class SaveListener implements View.OnClickListener {
+    public class SwitchListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            Intent vanillaMeme = new Intent(getApplicationContext(), VanillaMeme.class);
+            vanillaMeme.putExtra("imgFilePath", imgFilePath);
+            vanillaMeme.putExtra("top", topET.getText().toString());
+            vanillaMeme.putExtra("bottom", bottomET.getText().toString());
+            startActivity(vanillaMeme);
+        }
+    }
 
+    public class SaveListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             String timeStamp = "meme_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".jpg";
@@ -148,7 +171,6 @@ public class DemotivationalMeme extends Activity {
     }
 
     public class ShareListener implements View.OnClickListener {
-
         @Override
         public void onClick(View v) {
             Intent share = new Intent(Intent.ACTION_SEND);

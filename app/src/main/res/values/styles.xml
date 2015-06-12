@@ -5,6 +5,7 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <!--Radio Button custom icons-->
     <style name="RadioButton">
         <item name="android:fontFamily">serif</item>
         <item name="android:textSize">22dp</item>
@@ -12,10 +13,27 @@
         <item name="android:button">@drawable/radio</item>
     </style>
 
+    <!--EditText style-->
     <style name="EditTextStyle">
-        <item name="android:maxLength">40</item>
         <item name="android:textColor">#fff</item>
         <item name="android:textColorHint">#fff</item>
     </style>
+
+    <!--Style for ImageButtons on Main Activity-->
+    <style name="LandImageButtons">
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginRight">20dp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <!--Style for Regular Buttons-->
+    <style name="Buttons">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textColor">@drawable/button</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+    </style>
+
 
 </resources>

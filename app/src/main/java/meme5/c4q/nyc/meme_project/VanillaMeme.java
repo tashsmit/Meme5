@@ -43,21 +43,25 @@ public class VanillaMeme extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vanilla_meme);
 
-        topET = (EditText) findViewById(R.id.top);
-        bottomET = (EditText) findViewById(R.id.bottom);
-        preview = (ImageView) findViewById(R.id.testImage);
-        switch_btn = (Button) findViewById(R.id.switch_btn);
-        save = (Button) findViewById(R.id.save);
-        share = (Button) findViewById(R.id.share);
+        initializeViews();
 
-        //get image path from previous activity
+        // get image and text fromt bundle, populate views
         Bundle bundle = getIntent().getExtras();
         if (bundle.getString("imgFilePath") != null) {
             imgFilePath = bundle.getString("imgFilePath");
             image = Decode.decodeFile(image, imgFilePath, false);
-            preview.setImageBitmap(image);
+            topET.setText(bundle.getString("top"));
+            bottomET.setText(bundle.getString("bottom"));
+
+            if (!topET.getText().toString().isEmpty() || !bottomET.getText().toString().isEmpty()) {
+                memeImage = drawTextToBitmap(image.copy(image.getConfig(), true), topET.getText().toString().toUpperCase(), true);
+                memeImage = drawTextToBitmap(memeImage, bottomET.getText().toString().toUpperCase(), false);
+                preview.setImageBitmap(memeImage);
+            } else
+                preview.setImageBitmap(image);
         }
 
+        // custom textwatch draws text onto image as editText changes
         TextWatch tw = new TextWatch(topET, bottomET);
         topET.addTextChangedListener(tw);
         bottomET.addTextChangedListener(tw);
@@ -67,7 +71,15 @@ public class VanillaMeme extends Activity {
         share.setOnClickListener(new ShareListener());
     }
 
-    // custom TextWatcher updates preview when text is added
+    public void initializeViews() {
+        topET = (EditText) findViewById(R.id.top);
+        bottomET = (EditText) findViewById(R.id.bottom);
+        preview = (ImageView) findViewById(R.id.testImage);
+        switch_btn = (Button) findViewById(R.id.switch_btn);
+        save = (Button) findViewById(R.id.save);
+        share = (Button) findViewById(R.id.share);
+    }
+
     public class TextWatch implements TextWatcher {
 
         private EditText top, bottom;
@@ -78,20 +90,17 @@ public class VanillaMeme extends Activity {
         }
 
         @Override
-        public void afterTextChanged(Editable s) {
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
             memeImage = drawTextToBitmap(image.copy(image.getConfig(), true), top.getText().toString().toUpperCase(), true);
             memeImage = drawTextToBitmap(memeImage, bottom.getText().toString().toUpperCase(), false);
             preview.setImageBitmap(memeImage);
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
             textLength = s.length();
         }
 
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+        @Override
+        public void afterTextChanged(Editable s) {}
     }
 
 
@@ -108,6 +117,8 @@ public class VanillaMeme extends Activity {
             bitmap = bitmap.copy(bitmapConfig, true);
             Canvas canvas = new Canvas(bitmap);
 
+            // set text color, size, font, alignment
+            // textsize is relative to image size, updated on onWindowFocusChanged()
             TextPaint paint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
             paint.setColor(Color.WHITE);
             paint.setTextSize(textSize);
@@ -118,14 +129,14 @@ public class VanillaMeme extends Activity {
 
             // create a static layout for word wrapping
             // checked for number of chars entered to move yPos of bottom text so new lines do not get cut off
-            StaticLayout mTextLayout = new StaticLayout(mText1, paint, canvas.getWidth(), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+            StaticLayout mTextLayout = new StaticLayout(mText1, paint, canvas.getWidth(), Layout.Alignment.ALIGN_NORMAL, 0.8f, 0.0f, false);
             int xPos = (bitmap.getWidth() / 2) - 2;
-            int yPos = bitmap.getHeight() - 70;
+            int yPos = bitmap.getHeight() - 120;
             if (top)
                 canvas.translate(xPos, 10);
             else {
                 while ((textLength * 46) > preview.getWidth()) {
-                    yPos -= 45;
+                    yPos -= 115;
                     textLength -= 14;
                 }
                 canvas.translate(xPos, yPos);
@@ -141,28 +152,27 @@ public class VanillaMeme extends Activity {
 
             //then redraw text for stroke
             mTextLayout.draw(canvas);
-
             return bitmap;
         } catch (Exception e) {
             return null;
         }
     }
 
+    // based on image size, find appropriate text size and stroke size
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         int width = preview.getWidth();
         int height = preview.getHeight();
 
         if (width < height)
-            textSize = height / 20;
+            textSize = height / 8;
         else
-            textSize = height / 13;
+            textSize = height / 6;
 
         strokeSize = textSize / 20;
     }
 
     public class SwitchListener implements View.OnClickListener {
-
         @Override
         public void onClick(View v) {
             Intent demotivationalMeme = new Intent(getApplicationContext(), DemotivationalMeme.class);
@@ -174,7 +184,6 @@ public class VanillaMeme extends Activity {
     }
 
     public class SaveListener implements View.OnClickListener {
-
         @Override
         public void onClick(View v) {
             String timeStamp = "meme_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".jpg";
@@ -184,7 +193,6 @@ public class VanillaMeme extends Activity {
     }
 
     public class ShareListener implements View.OnClickListener {
-
         @Override
         public void onClick(View v) {
             Intent share = new Intent(Intent.ACTION_SEND);

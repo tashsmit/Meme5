@@ -54,26 +54,24 @@
 
         <ImageButton
             android:id="@+id/cameraButton"
+            style="@style/LandImageButtons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
             android:background="@drawable/cameraimage" />
 
         <ImageButton
             android:id="@+id/albumButton"
+            style="@style/LandImageButtons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
             android:background="@drawable/albumimage" />
 
-        <Button
+        <ImageButton
             android:id="@+id/google"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            style="@style/LandImageButtons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/cameraimage" />
 
     </LinearLayout>
 </LinearLayout>

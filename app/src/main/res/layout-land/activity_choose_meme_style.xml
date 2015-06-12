@@ -78,13 +78,12 @@
 
             <Button
                 android:id="@+id/nextButton"
-                style="@style/Widget.AppCompat.Button.Borderless"
+                style="@style/Buttons"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:layout_weight="1"
                 android:text="@string/next_button"
-                android:textColor="#fff"
                 android:textSize="25dp" />
         </LinearLayout>
 

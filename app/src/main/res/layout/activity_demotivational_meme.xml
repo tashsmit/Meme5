@@ -22,11 +22,13 @@
             style="@style/EditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLength="12"
             android:hint="@string/large"/>
 
         <EditText
             android:id="@+id/small"
             style="@style/EditTextStyle"
+            android:maxLength="60"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/small" />
@@ -46,25 +48,30 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/save"
-            style="@style/Widget.AppCompat.Button.Borderless"
+            android:id="@+id/switch_btn"
+            style="@style/Buttons"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:text="Switch"
+            android:textSize="20dp" />
+
+        <Button
+            android:id="@+id/save"
+            style="@style/Buttons"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/save"
-            android:textColor="#fff"
             android:textSize="20dp" />
 
         <Button
             android:id="@+id/share"
-            style="@style/Widget.AppCompat.Button.Borderless"
+            style="@style/Buttons"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
             android:layout_weight="1"
             android:text="@string/share"
-            android:textColor="#fff"
             android:textSize="20dp" />
     </LinearLayout>
 </LinearLayout>

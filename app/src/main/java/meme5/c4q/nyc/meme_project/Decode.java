@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.util.Log;
-import android.widget.Toast;
 
 /**
  * Created by sufeizhao on 6/9/15.
@@ -14,18 +13,18 @@ public class Decode {
 
     // Method used to resize, rotate and set up bitmap
     public static Bitmap decodeFile(Bitmap image, String filePath, boolean demo) {
-        // Decode image size
         BitmapFactory.Options o = new BitmapFactory.Options();
         o.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(filePath, o);
 
         // The new size we want to scale to
-        final int REQUIRED_SIZE = 1024;
-
-        // Find the correct scale value. It should be the power of 2.
+        // Log actual size of image for reference
+        final int REQUIRED_SIZE = 2048;
         int width_tmp = o.outWidth, height_tmp = o.outHeight;
         Log.d("width", String.valueOf(width_tmp)); //1456
         Log.d("height", String.valueOf(height_tmp)); //2592
+
+        // Find the correct scale value. It should be the power of 2.
         int scale = 1;
         while (true) {
             if (width_tmp < REQUIRED_SIZE && height_tmp < REQUIRED_SIZE)
@@ -35,16 +34,16 @@ public class Decode {
             scale *= 2;
         }
 
-        // Decode with inSampleSize
         BitmapFactory.Options o2 = new BitmapFactory.Options();
         o2.inSampleSize = scale;
         Bitmap b1 = BitmapFactory.decodeFile(filePath, o2);
         image = ExifUtils.rotateBitmap(filePath, b1);
 
+        // if in demotivational layout, add black border to image
         if (demo) {
-            image = addBorder(image, Color.BLACK, 5);
-            image = addBorder(image, Color.WHITE, 5);
-            image = addBorder(image, Color.BLACK, 30, 30, 30, 150);
+            image = addBorder(image, Color.BLACK, 10);
+            image = addBorder(image, Color.WHITE, 10);
+            image = addBorder(image, Color.BLACK, 60, 60, 60, 270);
         }
 
         return image;

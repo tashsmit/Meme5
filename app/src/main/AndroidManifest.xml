@@ -12,24 +12,25 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         android:largeHeap="true">
+
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
-        </activity>
+            android:label="@string/app_name" />
 
         <activity
             android:name=".ChooseMemeStyle"
-            android:label="@string/title_activity_choose_meme_style" >
-        </activity>
+            android:label="@string/title_activity_choose_meme_style" />
+
         <activity
             android:name=".VanillaMeme"
-            android:label="@string/title_activity_vanilla_meme">
-        </activity>
+            android:label="@string/title_activity_vanilla_meme"
+            android:noHistory="true"/>
 
         <activity
             android:name=".DemotivationalMeme"
-            android:label="@string/title_activity_demotivational_meme">
-        </activity>
+            android:label="@string/title_activity_demotivational_meme"
+            android:noHistory="true"/>
+
         <activity
             android:name=".SplashScreen"
             android:label="@string/title_activity_splash_screen" >
@@ -39,8 +40,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Google"
-            android:label="Google"/>
+
+        <activity android:name=".MemeSearch"
+            android:label="Google"
+            android:noHistory="true"/>
 
     </application>
 

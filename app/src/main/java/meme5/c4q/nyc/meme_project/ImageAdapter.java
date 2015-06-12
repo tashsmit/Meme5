@@ -5,9 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-
 import com.squareup.picasso.Picasso;
-
 import java.util.List;
 
 /**
@@ -17,7 +15,6 @@ public class ImageAdapter extends BaseAdapter {
 
     private Context mContext;
     private List<String> imageList;
-
 
     public ImageAdapter(Context c, List<String> imageList) {
         mContext = c;

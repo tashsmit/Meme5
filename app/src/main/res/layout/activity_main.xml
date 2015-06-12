@@ -13,7 +13,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="5"
+        android:layout_weight="6"
         android:orientation="vertical">
 
         <ImageView
@@ -36,7 +36,6 @@
             android:layout_height="0dp"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:fontFamily="serif"
             android:gravity="center"
             android:text="TAKE A PICTURE OR SELECT FROM GALLERY"
             android:textColor="#ffffff"
@@ -54,25 +53,24 @@
             android:id="@+id/cameraButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
             android:layout_weight="1"
+            android:layout_margin="10dp"
             android:background="@drawable/cameraimage"/>
 
         <ImageButton
             android:id="@+id/albumButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
             android:layout_weight="1"
+            android:layout_margin="10dp"
             android:background="@drawable/albumimage" />
-        <Button
+        <ImageButton
             android:id="@+id/google"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
+            android:background="@drawable/cameraimage"/>
 
     </LinearLayout>
 </LinearLayout>
