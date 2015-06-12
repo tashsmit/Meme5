@@ -50,6 +50,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="Preview Text"
+            android:onClick="previewTextOnClick"
             android:id="@+id/previewText"
             android:layout_gravity="center_horizontal" />
 
