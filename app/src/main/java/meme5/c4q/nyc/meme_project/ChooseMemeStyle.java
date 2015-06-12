@@ -30,9 +30,9 @@ public class ChooseMemeStyle extends Activity {
     protected Button nextButton;
     protected boolean vanilla;
     protected Random slideShow;
-    ImageView img, thumbnail;
-    AnimationDrawable frameAnimation;
-    String imgFilePath;
+    private ImageView img, thumbnail;
+    private AnimationDrawable frameAnimation;
+    private String imgFilePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
