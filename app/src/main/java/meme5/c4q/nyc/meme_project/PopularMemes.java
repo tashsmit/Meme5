@@ -27,36 +27,30 @@ public class PopularMemes extends ActionBarActivity {
         memeListView = (ListView) findViewById(R.id.meme_list_view);
 
         Integer[] memeResources = {
-                R.drawable.smiley,
-                R.drawable.smiley_copy,
-                R.drawable.vanilla_sample,
-                R.drawable.vanilla_sample2,
-                R.drawable.vanilla_sample3,
-//                R.drawable.girdfour,
-//                R.drawable.gridfive,
-//                R.drawable.gridsix,
-//                R.drawable.gridseven,
-//                R.drawable.grideight,
-//                R.drawable.gridnine,
-//                R.drawable.gridten,
-//                R.drawable.grideleven,
-//                R.drawable.gridtwelve,
-//                R.drawable.gridthirteen,
-//                R.drawable.gridforteen,
-//                R.drawable.gridfifteen,
-//                R.drawable.gridsixteen,
+                R.drawable.popular0,
+                R.drawable.popular1,
+                R.drawable.popular2,
+                R.drawable.popular3,
+                R.drawable.popular4,
+                R.drawable.popular5,
+                R.drawable.popular6,
+                R.drawable.popular7,
+                R.drawable.popular8,
+                R.drawable.popular9,
+                R.drawable.popular10,
+                R.drawable.popular11,
+
         };
         MemeAdapter memeAdapter = new MemeAdapter(this, memeResources);
         memeListView.setAdapter(memeAdapter);
-
-        memeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        memeListView.setOnItemClickListener( new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 int meme = (Integer) parent.getItemAtPosition(position);
-                Intent gotoPopMeme = new Intent(PopularMemes.this, ChooseMemeStyle.class);
+                Intent popularMemes = new Intent(PopularMemes.this, ChooseMemeStyle.class);
                 imageUri += meme;
-                gotoPopMeme.putExtra(IMAGE_URI_KEY, imageUri);
-                startActivity(gotoPopMeme);
+                popularMemes.putExtra(IMAGE_URI_KEY, imageUri);
+                startActivity(popularMemes);
             }
         });
 
@@ -78,5 +72,4 @@ public class PopularMemes extends ActionBarActivity {
             return convertView;
         }
     }
-
 }
