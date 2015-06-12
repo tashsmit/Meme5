@@ -30,14 +30,15 @@ import java.io.FileOutputStream;
 
 public class VanillaMeme extends Activity {
 
-    ImageView image;
-    EditText line1;
-    Bitmap bmp, bmp2;
-    String line1Text;
-    String imgFilePath;
-    Button nextButton;
-    TextView title;
-    RadioButton small, medium, large;
+    //ELEMENTS
+    private ImageView image;
+    private EditText line1;
+    private Bitmap bmp, bmp2;
+    private String line1Text;
+    private String imgFilePath;
+    private Button nextButton;
+    private TextView title;
+    private RadioButton small, medium, large;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,7 @@ public class VanillaMeme extends Activity {
             decodeFile(imgFilePath);
         }
 
+        //INITIALIZE
         line1 = (EditText) findViewById(R.id.top);
         image = (ImageView) findViewById(R.id.testImage);
         nextButton = (Button) findViewById(R.id.next);
@@ -60,7 +62,7 @@ public class VanillaMeme extends Activity {
         large = (RadioButton) findViewById(R.id.large);
 
 
-        //apply font
+        //APPLY FONT
         Typeface tf = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/ubuntu.ttf");
         title.setTypeface(tf);
         small.setTypeface(tf);
@@ -69,7 +71,7 @@ public class VanillaMeme extends Activity {
         line1.setTypeface(tf);
         nextButton.setTypeface(tf);
 
-        //create on check listener to see which size is chosen
+        //CREATE ON CHECK LISTENER TO SEE WHICH SIZE IS CHOSEN
         RadioGroup group = (RadioGroup) findViewById(R.id.textSizes);
         group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -95,7 +97,7 @@ public class VanillaMeme extends Activity {
         });
     }
 
-    //method used to write text on image
+    //TEXT ON IMAGE
     public Bitmap drawTextToBitmap(Bitmap bitmap, String mText1, int textSize, int strokeSize) {
         try {
             android.graphics.Bitmap.Config bitmapConfig = bitmap.getConfig();
@@ -123,7 +125,8 @@ public class VanillaMeme extends Activity {
             int xPos = (bitmap.getWidth() / 2) - 2;     //-2 is for regulating the x position offset
 
             // create a static layout for word wrapping
-            StaticLayout mTextLayout = new StaticLayout(mText1, paint, canvas.getWidth(), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+            StaticLayout mTextLayout = new StaticLayout(mText1, paint, canvas.getWidth(),
+                                                Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
             canvas.translate(xPos, 10); //position the text
             //draw text without stroke first
             mTextLayout.draw(canvas);

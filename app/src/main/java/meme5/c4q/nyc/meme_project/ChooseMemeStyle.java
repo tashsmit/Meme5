@@ -30,9 +30,10 @@ public class ChooseMemeStyle extends Activity {
     protected Button nextButton;
     protected boolean vanilla;
     protected Random slideShow;
-    ImageView img, thumbnail;
-    AnimationDrawable frameAnimation;
-    String imgFilePath;
+    private ImageView img, thumbnail;
+    private AnimationDrawable frameAnimation;
+    private String imgFilePath;
+    private String imageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +46,13 @@ public class ChooseMemeStyle extends Activity {
         {
             imgFilePath = bundle.getString("imgFilePath");
         }
+
+        Bundle popular = getIntent().getExtras();
         thumbnail = (ImageView) findViewById(R.id.thumbnail);
         Bitmap bmp2 = BitmapFactory.decodeFile(imgFilePath);
         thumbnail.setImageBitmap(bmp2);
 
-        //apply fonts -
+        //apply fonts
         //TODO: need to find a way to add this font globally through style!
         TextView step1 = (TextView) findViewById(R.id.step1);
         TextView step2 = (TextView) findViewById(R.id.step2);
@@ -71,8 +74,6 @@ public class ChooseMemeStyle extends Activity {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
                 Log.d(TAG, "onCheckedChanged()");
-                // Is the button now checked?
-//                boolean checked = ((RadioButton) view).isChecked();
 
                 // Check which radio button was clicked
                 switch (checkedId) {
@@ -80,15 +81,14 @@ public class ChooseMemeStyle extends Activity {
 
                         Log.d(TAG, "onCheckedChanged() -- chooseVanilla");
                         //determine if user chose vanilla or demotivational
-
                         vanilla = true;
                         img = (ImageView) findViewById(R.id.sampleImageHolder);
                         img.setImageResource(R.drawable.vanilla_animation);
 
                         frameAnimation = (AnimationDrawable) img.getDrawable();
-
                         frameAnimation.start();
                         break;
+
                     case R.id.chooseDemotivational:
 
                         Log.d(TAG, "onCheckedChanged() -- chooseDemotivational");
@@ -98,7 +98,6 @@ public class ChooseMemeStyle extends Activity {
                         img.setImageResource(R.drawable.demotivational_animation);
 
                         frameAnimation = (AnimationDrawable) img.getDrawable();
-
                         frameAnimation.start();
                         break;
                 }

@@ -25,18 +25,17 @@ import java.io.IOException;
 
 public class add_text extends ActionBarActivity {
 
-    Bitmap memeImage;
-    ImageView share;
-    ImageView save;
-    ImageView preview;
-    Bitmap previewMeme;
+    //ELEMENTS
+    private Bitmap memeImage;
+    private ImageView share;
+    private ImageView save;
+    private ImageView preview;
+    private Bitmap previewMeme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_text);
-
-
 
         String filename = getIntent().getStringExtra("memeImage");
         try {
@@ -71,8 +70,6 @@ public class add_text extends ActionBarActivity {
                 }
                 share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/temporary_file.jpg"));
                 startActivity(Intent.createChooser(share, "Share Image"));
-
-
             }
         });
 

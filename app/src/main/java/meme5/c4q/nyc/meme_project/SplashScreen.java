@@ -16,9 +16,12 @@ import android.widget.TextView;
 public class SplashScreen extends Activity {
 
     /** Duration of wait **/
-    private final int SPLASH_DISPLAY_LENGTH = 2500;
-    ImageView img;
-    AnimationDrawable frameAnimation;
+    //ELEMENTS
+    private ImageView img;
+    private AnimationDrawable frameAnimation;
+
+    //KEY VALUE PAIR
+    private final int SPLASH_DISPLAY_LENGTH = 1000;
 
     /** Called when the activity is first created. */
     @Override

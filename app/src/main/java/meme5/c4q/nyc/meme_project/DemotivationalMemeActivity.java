@@ -22,11 +22,12 @@ import java.io.FileOutputStream;
  */
 public class DemotivationalMemeActivity extends Activity {
 
-    Bitmap image;
-    Bitmap memeImage;
-    ImageView preview;
-    EditText largeText;
-    EditText smallText;
+    //ELEMENTS
+    private Bitmap image;
+    private Bitmap memeImage;
+    private ImageView preview;
+    private EditText largeText;
+    private EditText smallText;
 
 
     @Override
@@ -34,7 +35,10 @@ public class DemotivationalMemeActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_demotivational_meme);
 
+        //INITIALIZE
         preview = (ImageView) findViewById(R.id.preview);
+        largeText = (EditText) findViewById(R.id.large);
+        smallText = (EditText) findViewById(R.id.small);
 
         String imgFilePath = "";
         Bundle bundle = getIntent().getExtras();
@@ -44,8 +48,7 @@ public class DemotivationalMemeActivity extends Activity {
             decodeFile(imgFilePath);
         }
 
-        largeText = (EditText) findViewById(R.id.large);
-        smallText = (EditText) findViewById(R.id.small);
+
         Button previewText = (Button) findViewById(R.id.previewText);
         previewText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,6 +112,7 @@ public class DemotivationalMemeActivity extends Activity {
         while (true) {
             if (width_tmp < REQUIRED_SIZE && height_tmp < REQUIRED_SIZE)
                 break;
+
             width_tmp /= 2;
             height_tmp /= 2;
             scale *= 2;
