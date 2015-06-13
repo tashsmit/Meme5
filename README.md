@@ -1,16 +1,19 @@
 Original by Team Meme5
-Edited by Sufei
+Edited by Sufei Zhao
+
+Feature Edits
+* Included "top meme" feature which returns top 4 google image search for a keyword meme. User has the ability to click on an image and save or share with social media. Sometimes "search" button needs to be pressed twice to reload due to a Picasso library bug that logs "airplane mode on", blocking gridview from populating image (still looking for solutions to this, as well as a landscape view)
+* The original camera feature did not work on non-Samsung phones is now fixed
+* Vanilla meme handles both top and bottom text now. I also adjusted the image and text size for a better porportion to the screen
+* A "switch" button was added for user convenience. It changes from Vanilla meme to Demotivational without having to go back to the last screen. Switching screens also allows user to continue from where they left off from previously typed text.
+* Demotivational Poster edittext no longer extends off the screen if more than one line of characteres are entered
 
 Layout Edits
 * Changed layout for more uniform and minimalist design
 * Renamed views and ids across the project for clarification
-* Created style sheets for button effects
+* Created style sheets for button effects and clearer radio buttons
 * Deleted unused images that was slowing down the original app
-
-Feature Edits
-* Included "top meme" featurereturns top 4 google image search for a keyword meme. Sometimes a bug occurs which logs "airplane mode on" caused by Picasso library,Ability to click on populated image and save or share with social media. Share function 
-* original camera feature did not work on non-Samsung phones is now fixed
-* 
+* Edited landscape views for better use of screen space
 
 
 ---
