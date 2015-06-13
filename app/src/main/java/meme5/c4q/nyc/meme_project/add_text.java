@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -32,12 +30,6 @@ public class add_text extends ActionBarActivity {
 
         getMeme();
 
-        ImageView previewMeme = (ImageView) findViewById(R.id.previewMeme);
-
-        if(memeImage != null) {
-            previewMeme.setImageBitmap(memeImage);
-        }
-
     }
 
     public void getMeme () {
@@ -49,8 +41,11 @@ public class add_text extends ActionBarActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        ImageView previewMeme = (ImageView) findViewById(R.id.previewMeme);
+        if(memeImage != null) {
+            previewMeme.setImageBitmap(memeImage);
+        }
     }
-
 
     public void shareImage(View view) {
         Intent share = new Intent(Intent.ACTION_SEND);
@@ -72,28 +67,6 @@ public class add_text extends ActionBarActivity {
     public void saveImage(View view) {
         MediaStore.Images.Media.insertImage(add_text.this.getContentResolver(), memeImage, "title.jpg", "some description");
         Toast.makeText(this, "Meme saved!", Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_add_text, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
 }

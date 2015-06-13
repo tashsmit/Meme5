@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 
 
-//user chooses whether to take picture from gallery, or camera  for meme
+//user chooses whether to take picture from gallery, or camera for meme
 //todo: create option where user can choose a meme type image.
 public class MainActivity extends Activity {
     private static final int RESULT_LOAD_IMG = 1;

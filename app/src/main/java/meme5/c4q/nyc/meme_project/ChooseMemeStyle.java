@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-
+//user chooses either demotivational meme style or vanilla meme style
 public class ChooseMemeStyle extends Activity {
 
     public static final String TAG = "MEME_ACTIVITY";
