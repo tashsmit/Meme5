@@ -19,19 +19,19 @@
 
         <EditText
             android:id="@+id/top"
+            style="@style/EditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/top"
-            android:maxLength="40"
-            style="@style/EditTextStyle"/>
+            android:maxLength="40" />
 
         <EditText
             android:id="@+id/bottom"
+            style="@style/EditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/bottom"
-            android:maxLength="40"
-            style="@style/EditTextStyle" />
+            android:maxLength="40" />
 
         <ImageView
             android:id="@+id/testImage"

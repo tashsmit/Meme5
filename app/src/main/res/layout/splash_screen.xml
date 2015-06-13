@@ -1,31 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
 
-    <ImageView android:id="@+id/splashscreen"
+    <ImageView
+        android:id="@+id/splashscreen"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:src="@drawable/splash_animation"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
+        android:src="@drawable/splash_animation" />
 
-    <ImageView android:id="@+id/face"
+    <ImageView
+        android:id="@+id/face"
         android:layout_width="175dp"
         android:layout_height="fill_parent"
-        android:src="@drawable/smiley"
-        android:gravity="center"
         android:layout_centerHorizontal="true"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:src="@drawable/smiley" />
 
-
-    <ImageView android:layout_width="fill_parent"
+    <ImageView
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:gravity="center"
-        android:src="@drawable/title"
         android:paddingBottom="350dp"
-        android:id="@+id/title"
-        android:textSize="50dp"
-        />
+        android:src="@drawable/title"
+        android:textSize="50dp" />
 
 </RelativeLayout>

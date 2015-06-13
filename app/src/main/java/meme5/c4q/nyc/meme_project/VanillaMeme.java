@@ -186,7 +186,7 @@ public class VanillaMeme extends Activity {
     public class SaveListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            String timeStamp = "meme_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".jpg";
+            String timeStamp = "IMG_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + ".jpg";
             MediaStore.Images.Media.insertImage(getContentResolver(), memeImage, timeStamp, "Created with Meme5");
             Toast.makeText(getApplicationContext(), "Meme has been saved!", Toast.LENGTH_LONG).show();
         }

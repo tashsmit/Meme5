@@ -70,7 +70,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_margin="10dp"
-            android:background="@drawable/cameraimage"/>
+            android:background="@drawable/top"/>
 
     </LinearLayout>
 </LinearLayout>

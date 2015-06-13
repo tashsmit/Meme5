@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -48,6 +49,10 @@ public class MemeSearch extends Activity {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                try  {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                } catch (Exception e) {}
                 images = new AsyncLoad();
                 images.execute();
                 loading.setVisibility(View.VISIBLE);
@@ -96,7 +101,7 @@ public class MemeSearch extends Activity {
 
         @Override
         protected void onPostExecute(List<String> list) {
-            adapter = new ImageAdapter(getApplicationContext(), list);
+            adapter = new ImageAdapter(MemeSearch.this, list);
             grid.setAdapter(adapter);
             loading.setVisibility(View.INVISIBLE);
         }
