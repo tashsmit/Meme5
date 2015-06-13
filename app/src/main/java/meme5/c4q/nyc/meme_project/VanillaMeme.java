@@ -3,7 +3,6 @@ package meme5.c4q.nyc.meme_project;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -15,15 +14,12 @@ import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import java.io.FileOutputStream;
 
@@ -44,12 +40,7 @@ public class VanillaMeme extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vanilla_meme);
 
-        //get image path from previous activity
-        Bundle bundle = getIntent().getExtras();
-        if (bundle.getString("imgFilePath") != null) {
-            imgFilePath = bundle.getString("imgFilePath");
-            decodeFile(imgFilePath);
-        }
+        getMeme();
 
         line1 = (EditText) findViewById(R.id.top);
         image = (ImageView) findViewById(R.id.testImage);
@@ -59,7 +50,25 @@ public class VanillaMeme extends Activity {
         medium = (RadioButton) findViewById(R.id.medium);
         large = (RadioButton) findViewById(R.id.large);
 
+        applyFont();
 
+        //create on check listener to see which size is chosen
+        RadioGroup group = (RadioGroup) findViewById(R.id.textSizes);
+        group.setOnCheckedChangeListener(radioGroupChangeListener);
+        group.check(R.id.small);
+
+    }
+
+    public void getMeme(){
+        //get image path from previous activity
+        Bundle bundle = getIntent().getExtras();
+        if (bundle.getString("imgFilePath") != null) {
+            imgFilePath = bundle.getString("imgFilePath");
+            decodeFile(imgFilePath);
+        }
+    }
+
+    public void applyFont(){
         //apply font
         Typeface tf = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/ubuntu.ttf");
         title.setTypeface(tf);
@@ -68,32 +77,29 @@ public class VanillaMeme extends Activity {
         large.setTypeface(tf);
         line1.setTypeface(tf);
         nextButton.setTypeface(tf);
-
-        //create on check listener to see which size is chosen
-        RadioGroup group = (RadioGroup) findViewById(R.id.textSizes);
-        group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
-
-                line1Text = line1.getText().toString();
-
-                switch (checkedId) {
-                    case R.id.small:
-                        bmp = drawTextToBitmap(bmp2, line1Text, 40, 2);
-                        image.setImageBitmap(bmp);
-                        break;
-                    case R.id.medium:
-                        bmp = drawTextToBitmap(bmp2, line1Text, 55, 3);
-                        image.setImageBitmap(bmp);
-                        break;
-                    case R.id.large:
-                        bmp = drawTextToBitmap(bmp2, line1Text, 80, 4);
-                        image.setImageBitmap(bmp);
-                        break;
-                }
-            }
-        });
     }
+
+    public RadioGroup.OnCheckedChangeListener radioGroupChangeListener = new RadioGroup.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
+            line1Text = line1.getText().toString();
+
+            switch (checkedId) {
+                case R.id.small:
+                    bmp = drawTextToBitmap(bmp2, line1Text, 40, 2);
+                    image.setImageBitmap(bmp);
+                    break;
+                case R.id.medium:
+                    bmp = drawTextToBitmap(bmp2, line1Text, 55, 3);
+                    image.setImageBitmap(bmp);
+                    break;
+                case R.id.large:
+                    bmp = drawTextToBitmap(bmp2, line1Text, 80, 4);
+                    image.setImageBitmap(bmp);
+                    break;
+            }
+        }
+    };
 
     //method used to write text on image
     public Bitmap drawTextToBitmap(Bitmap bitmap, String mText1, int textSize, int strokeSize) {
