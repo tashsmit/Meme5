@@ -129,6 +129,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_marginTop="15dp"
+            android:textColor="#fff"
+            android:textSize="20dp"
             android:text="@string/next_button" />
 
     </LinearLayout>
