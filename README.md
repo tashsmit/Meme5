@@ -1,5 +1,5 @@
-Original by Team Meme5
-Edited by Sufei Zhao
+###### Original by Team Meme5
+###### Edited by Sufei Zhao
 
 Feature Edits
 * Included "top meme" feature which returns top 4 google image search for a keyword meme. User has the ability to click on an image and save or share with social media. Sometimes "search" button needs to be pressed twice to reload due to a Picasso library bug that logs "airplane mode on", blocking gridview from populating image (still looking for solutions to this, as well as a landscape view)
