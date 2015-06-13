@@ -29,7 +29,7 @@ import javax.net.ssl.HttpsURLConnection;
  */
 public class MemeSearch extends Activity {
 
-    private static final String ENDPOINT = "https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=";
+    private static final String ENDPOINT = "https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=meme+";
     EditText editText;
     Button search;
     GridView grid;
@@ -66,7 +66,7 @@ public class MemeSearch extends Activity {
         protected List<String> doInBackground(Void... voids) {
 
             List<String> list = new ArrayList<>();
-            String url = ENDPOINT + editText.getText().toString() + "+meme";
+            String url = ENDPOINT + editText.getText().toString();
 
             try {
                 URL jsonUrl = new URL(url);
