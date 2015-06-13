@@ -1,17 +1,17 @@
 package meme5.c4q.nyc.meme_project;
 
 import android.app.Activity;
-import android.graphics.Typeface;
-import android.os.Bundle;
-import android.widget.TextView;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.provider.MediaStore;
 import android.view.View;
+import android.widget.Toast;
 
+
+//user chooses whether to take picture from gallery, or camera for meme
+//todo: create option where user can choose a meme type image.
 public class MainActivity extends Activity {
     private static final int RESULT_LOAD_IMG = 1;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -23,6 +23,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
     }
+
     private void launchChooseMeme(){
         Intent chooseMeme = new Intent(this,ChooseMemeStyle.class);
         chooseMeme.putExtra("imgFilePath",imgFilePath);

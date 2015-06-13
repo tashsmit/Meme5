@@ -126,10 +126,13 @@
     <Button
         android:id="@+id/nextButton"
         style="?android:attr/buttonStyleSmall"
+        android:onClick="nextButtonOnClick"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:layout_marginTop="15dp"
+        android:textColor="#fff"
+        android:textSize="20dp"
         android:text="@string/next_button" />
 
 </LinearLayout>

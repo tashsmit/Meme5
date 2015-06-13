@@ -11,7 +11,6 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -36,6 +35,14 @@ public class DemotivationalMemeActivity extends Activity {
 
         preview = (ImageView) findViewById(R.id.preview);
 
+        getMeme();
+
+        largeText = (EditText) findViewById(R.id.large);
+        smallText = (EditText) findViewById(R.id.small);
+
+    }
+
+    public void getMeme() {
         String imgFilePath = "";
         Bundle bundle = getIntent().getExtras();
         if(bundle.getString("imgFilePath") != null)
@@ -43,18 +50,12 @@ public class DemotivationalMemeActivity extends Activity {
             imgFilePath = bundle.getString("imgFilePath");
             decodeFile(imgFilePath);
         }
+    }
 
-        largeText = (EditText) findViewById(R.id.large);
-        smallText = (EditText) findViewById(R.id.small);
-        Button previewText = (Button) findViewById(R.id.previewText);
-        previewText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                memeImage = drawTextToBitmap(image.copy(image.getConfig(),true),largeText.getText().toString(),true);
-                memeImage = drawTextToBitmap(memeImage,smallText.getText().toString(),false);
-                preview.setImageBitmap(memeImage);
-            }
-        });
+    public void previewTextOnClick (View view) {
+        memeImage = drawTextToBitmap(image.copy(image.getConfig(),true),largeText.getText().toString(),true);
+        memeImage = drawTextToBitmap(memeImage,smallText.getText().toString(),false);
+        preview.setImageBitmap(memeImage);
     }
 
     public void launchLastActivity(View view){
