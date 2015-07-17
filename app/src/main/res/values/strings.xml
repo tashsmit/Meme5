@@ -21,4 +21,14 @@
 
     <string name="title_activity_main_activity2">MainActivity2Activity</string>
     <string name="title_activity_add_text">add_text</string>
+
+    <array name="meme_images">
+        <item>@drawable/meme_db_1</item>
+        <item>@drawable/meme_db_2</item>
+        <item>@drawable/meme_db_3</item>
+        <item>@drawable/meme_db_4</item>
+        <item>@drawable/meme_db_5</item>
+        <item>@drawable/meme_db_6</item>
+        <item>@drawable/meme_db_7</item>
+    </array>
 </resources>
